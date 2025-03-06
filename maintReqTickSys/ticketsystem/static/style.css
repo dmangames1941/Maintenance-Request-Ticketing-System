@@ -1,0 +1,57 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 800px;
+    margin: 50px auto;
+    background: white;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+}
+
+/* Button Styling */
+.button {
+    display: inline-block;
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.button:hover {
+    background-color: #0056b3;
+}
+
+/* Home Page Specific Link Styling */
+.home-links {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.home-links a {
+    display: inline-block;
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 10px 15px;
+    border: 2px solid #007bff;
+    border-radius: 5px;
+    transition: 0.3s ease-in-out;
+}
+
+.home-links a:hover {
+    background-color: #007bff;
+    color: white;
+}
