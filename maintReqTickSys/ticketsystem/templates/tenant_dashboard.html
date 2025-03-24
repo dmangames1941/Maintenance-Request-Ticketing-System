@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tenant User Dashboard</title>
+</head>
+<body>
+    <!-- Header of Dashboard -->
+    <div class="container">
+
+        <div class="row justify-content-start">
+            <div class="col-sm-2"  style="background-color:blue;">
+                <img src="../../media/logo_light.png" class="img-fluid" alt="Property Maintenance">
+            </div>
+            <div class="col-lg"  style="background-color:purple;">
+                <h1> Hello, User </h1>
+            </div>
+            <div class="col-sm-3"  style="background-color:yellow;">
+                submit
+            </div>
+        </div>
+
+    </div>
+    <h1> Hello, User </h1>
+    <div class="container">
+        <ul class="nav bg-info">
+          <li class="nav-item">
+            <a class="nav-link link-light" href="/">HOME</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link link-light" href="/members">MEMBERS</a>
+          </li>
+        </ul>
+</body>
+</html>
