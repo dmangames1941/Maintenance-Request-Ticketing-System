@@ -5,21 +5,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    {% load crispy_forms_tags %}
     <link rel="stylesheet" href="{% static 'style.css' %}">
 </head>
 <body>
+    
     <div class="container">
         <h1>Login</h1>
         <form method="POST">
             {% csrf_token %}
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username" required>
+            {{form|crispy}}
 
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required>
-
-            <button type="submit" class="button">Login</button>
+            <button type="submit" class="btn btn-primary">Login</button>
         </form>
     </div>
+
 </body>
 </html>
