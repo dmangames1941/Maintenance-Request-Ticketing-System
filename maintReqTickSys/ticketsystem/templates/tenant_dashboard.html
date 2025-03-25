@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tenant User Dashboard</title>
+    <style>
+        .card:hover {
+            border-color:rgb(22, 65, 209);
+            box-shadow: 0 0 10px 2px rgba(22, 65, 209, 0.6);
+        }
+        
+        .card{
+            transition:box-shadow 0.5s, border-color;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header of Dashboard -->
+    <div class="container">
+
+        <div class="row">
+            <div class="col-sm-2 align-self-center mx-auto d-flex justify-content-center" >
+                <img src="../../media/logo_light.png" class="img-fluid" style="" alt="Property Maintenance">
+            </div>
+            <div class="col-lg my-auto">
+
+                <!-- If the user is logged in then show their name. Else, display static text -->
+                {% if user.is_authenticated %}
+                <h1 class="my-auto">Hello, {{ user.username|capfirst }}!</h1>
+                {% else %}
+                    <p>Hello, Guest!</p>
+                {% endif %}
+
+            </div>
+            <div class="col-sm-3 my-auto text-center" >
+                    <a class="btn btn-primary" href={% url 'ticket_create' %} role="button">New Request</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Open Request Tickets Shown -->
+    <div class="container my-2">
+            <h2>Open Request</h2>
+
+            <div class="flex-row d-flex p-4 " style="background-color: #E5E4E2">
+                <div class="col-1 align-self-center mx-auto d-flex justify-content-center">
+                    ⬅️
+                </div>
+
+                <!-- Scrollable container for tickets -->
+                <div class="col-md overflow-hidden position-relative " style="overflow-x: auto;">
+                    <div class="d-flex flex-row gap-3 mx-auto" style="min-height:200px; overflow-x: auto;" >
+                        {% for ticket in tickets %}
+                            {% if ticket.submitter == user and ticket.status != "completed" %}
+                                <div class="card flex-shrink-0" style="width: 18rem;">
+                                    {% if ticket.image != "" %}
+                                        <img class="card-img-top" style="max-height:150px; object-fit: cover;" src="{{ ticket.image.url }}" />
+                                    {% else %}
+                                        <img class="card-img-top" style="max-height:150px; object-fit: cover;" src="../../media/logo_light.png" />
+                                    {% endif %}
+                                    <div class="card-body">
+                                    <h5 class="card-title overflow-hidden" style="height: 24px;">{{ ticket.title }}</h5>
+                                    <h6 class="card-subtitle mb-2 text-muted">{{ ticket.status|capfirst }}</h6>
+                                    <p class="card-text overflow-hidden" style="height: 80px;">{{ ticket.description }}</p>
+                                    <a href="" class="card-link stretched-link">Card link</a>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="col-1 align-self-center d-flex justify-content-center">
+                    ➡️
+                </div>
+            </div>
+    </div>
+
+    
+    <!-- Closed Request Tickets Shown -->
+    <div class="container my-5">
+            <h2>Closed Request</h2>
+
+            <div class="flex-row d-flex p-4 " style="background-color: #E5E4E2">
+                <div class="col-1 align-self-center mx-auto d-flex justify-content-center">
+                    ⬅️
+                </div>
+
+                <div class="col-md  overflow-hidden position-relative " style="overflow-x: auto;"">
+                    <div class="d-flex flex-row gap-3 overflow-auto mx-auto" style="min-height:200px;" >
+                        {% for ticket in tickets %}
+                            {% if ticket.submitter == user and ticket.status == "completed" %}
+                                <div class="card" style="width: 18rem;">
+                                    {% if ticket.image != "" %}
+                                        <img class="card-img-top" style="max-height:150px; object-fit: cover;" src="{{ ticket.image.url }}" />
+                                    {% else %}
+                                        <img class="card-img-top" style="max-height:150px; object-fit: cover;" src="../../media/logo_light.png" />
+                                    {% endif %}
+                                    <div class="card-body">
+                                    <h5 class="card-title overflow-hidden" style="height: 24px;">{{ ticket.title }}</h5>
+                                    <h6 class="card-subtitle mb-2 text-muted">{{ ticket.status|capfirst }}</h6>
+                                    <p class="card-text overflow-hidden" style="height: 80px;">{{ ticket.description }}</p>
+                                    <a href="" class="card-link stretched-link">Card link</a>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="col-1 align-self-center d-flex justify-content-center">
+                    ➡️
+                </div>
+            </div>
+    </div>
+    
+</body>
+</html>
