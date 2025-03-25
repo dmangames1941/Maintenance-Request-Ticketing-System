@@ -1,2 +1,4 @@
 djangoenv/
 .venv/
+/maintReqTickSys/maintReqTickSys/__pycache__
+/maintReqTickSys/ticketsystem/__pycache__
