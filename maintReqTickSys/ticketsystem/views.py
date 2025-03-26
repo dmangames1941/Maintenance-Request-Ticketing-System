@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import messages
-from .models import Ticket
+from .models import Ticket, User, UserProfile
 from . import forms
 
 def home(request):
@@ -16,7 +16,11 @@ def user_login(request):
         form = AuthenticationForm(request, data=request.POST)
         if form.is_valid():
             user = form.get_user() # Returns current users information
+            print(user.username)
+            userProfile = UserProfile.objects.get(user=user)
             login(request, user)
+            print("-----------------------------------------")
+            print(userProfile)
             if user.is_superuser:
                 return redirect('admin_dashboard')
             else:
