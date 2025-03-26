@@ -39,6 +39,7 @@ class User(AbstractUser):
 class Ticket(models.Model):
 
     # add ticket ID?
+   
     title = models.CharField(max_length=200)
     description = models.TextField()
 
