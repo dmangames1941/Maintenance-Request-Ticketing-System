@@ -71,3 +71,7 @@ def ticket_create(request):
         form = forms.CreateTicket()
     return render(request, 'ticket_create.html', {'form':form})
    
+@login_required(login_url="/")
+def ticket_page(request, id):
+    ticket = Ticket.objects.get(id=id)
+    return render(request, 'ticket_page.html', {'ticket': ticket})
