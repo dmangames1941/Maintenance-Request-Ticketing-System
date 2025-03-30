@@ -24,8 +24,8 @@ class UserProfile(models.Model):
 
     def __str__(self):
         if self.role == "tenant":
-            return f"{self.username} - Apt {self.apartment_number or 'N/A'}, {self.building_name or ''}"
-        return f"{self.username} (Admin)"
+            return f"{self.user.username} - Apt {self.apartment_number or 'N/A'}, {self.building_name or ''}"
+        return f"{self.user.username} (Admin)"
 
 # -- User model --
 
