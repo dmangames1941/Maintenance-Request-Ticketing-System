@@ -24,7 +24,7 @@ def user_login(request):
             if user.is_superuser:
                 return redirect('admin_dashboard')
             else:
-                return redirect('user_dashboard')
+                return redirect('tenant_dashboard')
 
     # If GET return the form
     else:
