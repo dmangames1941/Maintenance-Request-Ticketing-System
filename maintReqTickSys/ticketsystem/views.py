@@ -21,7 +21,7 @@ def user_login(request):
             login(request, user)
             print("-----------------------------------------")
             print(userProfile)
-            if user.is_superuser:
+            if userProfile.role == "admin":
                 return redirect('admin_dashboard')
             else:
                 return redirect('tenant_dashboard')
