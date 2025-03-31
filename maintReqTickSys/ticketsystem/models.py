@@ -4,6 +4,11 @@ from django.conf import settings
 
 # Create your models here.
 
+# -- User model --
+
+# Django's built in User Model already stores username, email, password, first_name, and last_name
+# This model, UserProfile, is an extension of the inbuilt user model and has extra info
+
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     
@@ -26,36 +31,6 @@ class UserProfile(models.Model):
         if self.role == "tenant":
             return f"{self.user.username} - Apt {self.apartment_number or 'N/A'}, {self.building_name or ''}"
         return f"{self.user.username} (Admin)"
-
-# -- User model --
-
-# Django's built in User Model already stores username, email, password, first_name, and last_name
-# class User(AbstractUser):
-#     ROLE_CHOICES = [
-#         ('tenant', 'Tenant'),
-#         ('admin', 'Admin'),
-#     ]
-#     # admin or tenant?
-#     role = models.CharField(max_length=10, choices=ROLE_CHOICES, default='tenant')
-
-#     # Location details for TENANT ONLY (optional field)
-#     building_name = models.CharField(max_length=100, blank=True, null=True)
-#     apartment_number = models.CharField(max_length=10, blank=True, null=True)
-
-#     # Employee ID for ADMINS ONLY (optional field)
-#     employee_id = models.CharField(max_length=100, blank=True, null=True)
-
-
-#     #------- added due to SystemCheckError -----------
-#     groups = models.ManyToManyField('auth.Group', related_name='user_groups', blank=True)
-#     user_permissions = models.ManyToManyField('auth.Permission', related_name='user_permissions', blank=True)
-#     #-------------------------------------------------
-
-#     # Add word "Building"
-#     def __str__(self):
-#         if self.role == "tenant":
-#             return f"{self.username} - Apt {self.apartment_number or 'N/A'}, {self.building_name or ''}"
-#         return f"{self.username} (Admin)"
 
 
 # -- Ticket Model --
