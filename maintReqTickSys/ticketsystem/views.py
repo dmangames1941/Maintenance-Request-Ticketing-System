@@ -46,8 +46,9 @@ def tenant_dashboard(request):
 
 @login_required(login_url="/")
 def admin_dashboard(request):
-    if not request.user.is_superuser:
-        return redirect('user_dashboard')
+    userProfile = UserProfile.objects.get(user=request.user)
+    if userProfile.role == "tenant":
+        return redirect('tenant_dashboard')
     return render(request, 'admin_dashboard.html')
 
 @login_required(login_url="/")
