@@ -55,13 +55,15 @@
             <div class="col py-3">
 
                 <h1 class="m-4">All Maintenance</h1>
-                <div class="d-flex m-4 p-2 justify-content-center">
+                <div class="d-flex m-4 p-2 justify-content-center bg-light h-70 d-inline-block ">
                     <form method="POST" class="w-100">
-                        <div class="w-75 mx-auto">
-                        <table class="table table-striped">
+                        {% csrf_token %}
+                        <div class="w-100 h-75 d-inline-block table-responsive">
+                        <table class="table table-striped overflow-auto">
                             <thead>
                             <tr>
                                 <th scope="col"></th>
+                                <th scope="col">Asignee</th>
                                 <th scope="col">Title</th>
                                 <th scope="col">Apt</th>
                                 <th scope="col">Priority</th>
@@ -73,7 +75,8 @@
                             <tbody>
                                 {% for ticket in tickets %}
                                     <tr>
-                                        <th scope="row"><input class="form-check-input me-1" type="checkbox" value="{{ ticket.id }}" aria-label="checkbox"></th>
+                                        <th scope="row"><input class="form-check-input me-1"  type="checkbox" name="my_checkboxes[]" value="{{ ticket.id }}" aria-label="checkbox"></th>
+                                        <td>{{ ticket.assigned_admin|capfirst }}</td>
                                         <td>{{ ticket.title|capfirst }}</td>
                                         <td>{{ ticket.submitter.userprofile.building_name|slice:3 }} {{ ticket.submitter.userprofile.apartment_number }}</td>
                                         <td>{{ ticket.priority|capfirst }}</td>
@@ -87,8 +90,8 @@
                         </table>
                     </div>
                         <!-- Right-align the button -->
-                        <div class="d-flex justify-content-end">
-                            <button type="button" class="btn btn-primary">Self Assign</button>
+                        <div class="d-flex justify-content-end m-4">
+                            <button type="submit" class="btn btn-primary">Self Assign</button>
                         </div>
                     </form>
                 </div>
