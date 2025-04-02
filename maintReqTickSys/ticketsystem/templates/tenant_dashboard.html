@@ -64,9 +64,9 @@
                                         <img class="card-img-top" style="max-height:150px; object-fit: cover;" src="../../media/logo_light.png" />
                                     {% endif %}
                                     <div class="card-body">
-                                    <h5 class="card-title overflow-hidden" style="height: 24px;">{{ ticket.title }}</h5>
+                                    <h5 class="card-title overflow-hidden" style="height: 24px;">{{ ticket.title|capfirst }}</h5>
                                     <h6 class="card-subtitle mb-2 text-muted">{{ ticket.status|capfirst }}</h6>
-                                    <p class="card-text overflow-hidden" style="height: 80px;">{{ ticket.description }}</p>
+                                    <p class="card-text overflow-hidden" style="height: 80px;">{{ ticket.description|capfirst }}</p>
                                     <a href="{% url 'page' id=ticket.id %}" class="card-link stretched-link">Card link</a>
                                     </div>
                                 </div>

@@ -73,13 +73,13 @@
                             <tbody>
                                 {% for ticket in tickets %}
                                     <tr>
-                                        <th scope="row"><input class="form-check-input me-1" type="checkbox" value="" aria-label="checkbox"></th>
-                                        <td>{{ ticket.title }}</td>
-                                        <td>APT</td>
-                                        <td>{{ ticket.priority }}</td>
-                                        <td>{{ ticket.created_date }}</td>
-                                        <td>{{ ticket.category }}</td>
-                                        <td>{{ ticket.status }}</td>
+                                        <th scope="row"><input class="form-check-input me-1" type="checkbox" value="{{ ticket.id }}" aria-label="checkbox"></th>
+                                        <td>{{ ticket.title|capfirst }}</td>
+                                        <td>{{ ticket.submitter.userprofile.building_name|slice:3 }} {{ ticket.submitter.userprofile.apartment_number }}</td>
+                                        <td>{{ ticket.priority|capfirst }}</td>
+                                        <td>{{ ticket.created_date|date:"M d, Y" }}</td>
+                                        <td>{{ ticket.category|capfirst }}</td>
+                                        <td>{{ ticket.status|capfirst }}</td>
                                     </tr>
                                 {% endfor %}
 
