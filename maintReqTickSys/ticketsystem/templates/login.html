@@ -13,14 +13,21 @@
 </head>
 <body>
     
-    <div class="container">
-        <h1>Login</h1>
-        <form method="POST">
-            {% csrf_token %}
-            {{form|crispy}}
+    <div class="container p-5">
+        <div class="row">
+            <div class="col-6 m-4">
+                <img src="../../media/logo_light.png" class="img-fluid" style="" alt="Property Maintenance">
+            </div>
+            <div class="col m-4">
+                <h1>Login</h1>
+                <form method="POST">
+                    {% csrf_token %}
+                    {{form|crispy}}
 
-            <button type="submit" class="btn btn-primary">Login</button>
-        </form>
+                    <button type="submit" class="btn btn-primary">Login</button>
+                </form>
+            </div>
+        </div>
     </div>
 
 </body>
