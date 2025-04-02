@@ -44,7 +44,12 @@ def tenant_dashboard(request):
 def admin_dashboard(request):
     if not request.user.is_superuser:
         return redirect('user_dashboard')
-    return render(request, 'admin_dashboard.html')
+
+    context = {
+        'user': request.user,
+        'tickets': Ticket.objects.all()
+    }
+    return render(request, 'admin_dashboard.html', context)
 
 @login_required(login_url="/")
 def ticket_create(request):
