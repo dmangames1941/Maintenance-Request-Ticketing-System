@@ -1,0 +1,73 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ticket: {{ticket.title}} </title>
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+
+    <div class="container">
+
+        <div class="row">
+            <div class="col-sm-2 align-self-center mx-auto d-flex justify-content-center" >
+                <img src="../../media/logo_light.png" class="img-fluid" alt="Property Maintenance">
+            </div>
+            <div class="col-lg my-auto">
+
+                <h1>Request Ticket {{ ticket.title }}</h1>
+
+            </div>
+            <div class="col-sm-3 my-auto text-center" >
+                    <a class="btn btn-danger" href="{% url 'tenant_dashboard' %}" role="button">Back</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class=col>
+                <a href="{% url 'tenant_dashboard' %}">My Dashboard</a> /
+                <a href ="">{{ticket.title}}</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <h3>{{ ticket.title }}</h3>
+        </div>
+        <div class="row">
+            <h5>{{ ticket.submitter|capfirst }}</h5>
+        </div>
+        <div class="row">
+            <h5>{{ ticket.created_date }}</h5>
+        </div>
+        <div class="row">
+            
+            <div class="col">
+                <h6>Description</h6>
+                <p>{{ticket.description}}<p>
+            </div>
+            <div class="col">
+                <h6>Status: {{ ticket.status }}</h6>
+                <div class="">
+                    <div class = "row">
+                        <p>Updates:</p>
+                    </div>
+                    <div class="row">
+                        COMMENTS
+                    </div>
+                </div>
+            <div class="col">
+                Graph
+            </div>
+                
+            </div>
+        </div>
+    </div>
+    </div>
+</body>
+</html>

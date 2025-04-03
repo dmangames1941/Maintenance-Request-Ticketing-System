@@ -3,10 +3,105 @@
 <html>
 <head>
     <title>Admin Dashboard</title>
-    <link rel="stylesheet" href="{% static 'style.css' %}">
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
 </head>
 <body>
-    <h1>Welcome Admin!</h1>
-    <a href="{% url 'logout' %}">Logout</a>
+    
+    
+    <div class="container-fluid">
+        
+        <div class="row flex-nowrap">
+
+            <!-- Side NavBar -->
+            <div class="col-auto  px-sm-2 px-0" style="background-color: #e3f2fd;">
+                <div class="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary min-vh-100" style="width: 280px;">
+                    <div class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-decoration" style="max-width:270px;">
+                        <img src="../../media/logo_light.png" class="bi pe-none me-2" style="max-width:70px;" alt="Property Maintenance">
+                        <span class="navbar-brand mb-0 h1 text-wrap">Welcome, {{ user.username|capfirst }}!</span>
+                    </div>
+                    <hr>
+                    <ul class="nav nav-pills flex-column mb-auto">
+                    <li class="nav-item mt-2 rounded">
+                        <a href="#" class="nav-link list-group-item list-group-item-action active" aria-current="page">
+                        <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#home"></use></svg>
+                        All Maintenance
+                        </a>
+                    </li>
+                    <li class="nav-item mt-2 t-2 rounded">
+                        <a href="#" class="nav-link list-group-item list-group-item-action link-body-emphasis">
+                        <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#speedometer2"></use></svg>
+                        My Maintenance
+                        </a>
+                    </li>
+                    </ul>
+                    <hr>
+                    <div class="dropdown">
+                    <a class="d-flex align-items-center link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="../../media/user_icon.png" alt="" width="32" height="32" class="rounded-circle me-2">
+                        <strong>{{ user.username|capfirst }}</strong>
+                    </a>
+                    <ul class="dropdown-menu text-small shadow">
+                        <li><a class="dropdown-item" href="{% url 'logout' %}">Sign out</a></li>
+                    </ul>
+                    </div>
+                </div>
+            </div>
+
+        
+
+            <!-- Content Area -->
+            <div class="col py-3">
+
+                <h1 class="m-4">All Maintenance</h1>
+                <div class="d-flex m-4 p-2 justify-content-center bg-light h-70 d-inline-block ">
+                    <form method="POST" class="w-100">
+                        {% csrf_token %}
+                        <div class="w-100 h-75 d-inline-block table-responsive">
+                        <table class="table table-striped overflow-auto">
+                            <thead>
+                            <tr>
+                                <th scope="col"></th>
+                                <th scope="col">Asignee</th>
+                                <th scope="col">Title</th>
+                                <th scope="col">Apt</th>
+                                <th scope="col">Priority</th>
+                                <th scope="col">Date</th>
+                                <th scope="col">Type</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Temp Link</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                {% for ticket in tickets %}
+                                    <tr>
+                                        <th scope="row"><input class="form-check-input me-1"  type="checkbox" name="my_checkboxes[]" value="{{ ticket.id }}" aria-label="checkbox"></th>
+                                        <td>{{ ticket.assigned_admin|capfirst }}</td>
+                                        <td>{{ ticket.title|capfirst }}</td>
+                                        <td>{{ ticket.submitter.userprofile.building_name|slice:3 }} {{ ticket.submitter.userprofile.apartment_number }}</td>
+                                        <td>{{ ticket.priority|capfirst }}</td>
+                                        <td>{{ ticket.created_date|date:"M d, Y" }}</td>
+                                        <td>{{ ticket.category|capfirst }}</td>
+                                        <td>{{ ticket.status|capfirst }}</td>
+                                       
+                                    </tr>
+                                {% endfor %}
+
+                            </tbody>
+                        </table>
+                    </div>
+                        <!-- Right-align the button -->
+                        <div class="d-flex justify-content-end m-4">
+                            <button type="submit" class="btn btn-primary">Self Assign</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
 </body>
 </html>
