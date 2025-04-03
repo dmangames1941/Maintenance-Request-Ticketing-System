@@ -49,7 +49,23 @@ def admin_dashboard(request):
     userProfile = UserProfile.objects.get(user=request.user)
     if userProfile.role == "tenant":
         return redirect('tenant_dashboard')
-    return render(request, 'admin_dashboard.html')
+    
+    context = {
+        'user': request.user,
+        'tickets': Ticket.objects.all()
+    }
+
+    if request.method == 'POST':
+        selected_checkboxes = request.POST.getlist('my_checkboxes[]')
+        print(selected_checkboxes)
+
+        for selected_id in selected_checkboxes:
+            ticket = Ticket.objects.get(id=selected_id)
+            ticket.assigned_admin = request.user
+
+            ticket.save()
+
+    return render(request, 'admin_dashboard.html', context)
 
 @login_required(login_url="/")
 def ticket_create(request):
@@ -80,3 +96,7 @@ def ticket_create(request):
 def ticket_page(request, id):
     ticket = Ticket.objects.get(id=id)
     return render(request, 'ticket_page.html', {'ticket': ticket})
+
+@login_required(login_url="/")
+def update_ticket(request):
+    return render(request, 'update_ticket.html')
