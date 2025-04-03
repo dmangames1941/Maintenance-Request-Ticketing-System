@@ -24,13 +24,13 @@
                     <hr>
                     <ul class="nav nav-pills flex-column mb-auto">
                     <li class="nav-item mt-2 rounded">
-                        <a href="#" class="nav-link list-group-item list-group-item-action active" aria-current="page">
+                        <a href="{% url 'admin_dashboard' %}" class="nav-link list-group-item list-group-item-action active" aria-current="page">
                         <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#home"></use></svg>
                         All Maintenance
                         </a>
                     </li>
                     <li class="nav-item mt-2 t-2 rounded">
-                        <a href="#" class="nav-link list-group-item list-group-item-action link-body-emphasis">
+                        <a href="{% url 'admin_user_dashboard' %}" class="nav-link list-group-item list-group-item-action link-body-emphasis">
                         <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#speedometer2"></use></svg>
                         My Maintenance
                         </a>
@@ -84,7 +84,7 @@
                                         <td>{{ ticket.created_date|date:"M d, Y" }}</td>
                                         <td>{{ ticket.category|capfirst }}</td>
                                         <td>{{ ticket.status|capfirst }}</td>
-                                       
+                                        <td><a href="{% url 'admin_page' id=ticket.id %}">{{ ticket.submitter }}</a></td>
                                     </tr>
                                 {% endfor %}
 

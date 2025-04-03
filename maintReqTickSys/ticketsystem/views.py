@@ -68,6 +68,19 @@ def admin_dashboard(request):
     return render(request, 'admin_dashboard.html', context)
 
 @login_required(login_url="/")
+def admin_user_dashboard(request):
+    userProfile = UserProfile.objects.get(user=request.user)
+    if userProfile.role == "tenant":
+        return redirect('tenant_dashboard')
+    
+    context = {
+        'user': request.user,
+        'tickets': Ticket.objects.all()
+    }
+
+    return render(request, 'admin_user_dashboard.html', context)
+
+@login_required(login_url="/")
 def ticket_create(request):
     if request.method == 'POST':
         form = forms.CreateTicket(request.POST, request.FILES)
@@ -100,3 +113,8 @@ def ticket_page(request, id):
 @login_required(login_url="/")
 def update_ticket(request):
     return render(request, 'update_ticket.html')
+
+@login_required(login_url="/")
+def admin_ticket_page(request, id):
+    ticket = Ticket.objects.get(id=id)
+    return render(request, 'admin_ticket_page.html', {'ticket': ticket})

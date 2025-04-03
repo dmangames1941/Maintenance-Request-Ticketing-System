@@ -1,0 +1,65 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Dashboard</title>
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+</head>
+<body>
+    
+    
+    <div class="container-fluid">
+        
+        <div class="row flex-nowrap">
+
+            <!-- Side NavBar -->
+            <div class="col-auto  px-sm-2 px-0" style="background-color: #e3f2fd;">
+                <div class="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary min-vh-100" style="width: 280px;">
+                    <div class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-decoration" style="max-width:270px;">
+                        <img src="../../media/logo_light.png" class="bi pe-none me-2" style="max-width:70px;" alt="Property Maintenance">
+                        <span class="navbar-brand mb-0 h1 text-wrap">Welcome, {{ user.username|capfirst }}!</span>
+                    </div>
+                    <hr>
+                    <ul class="nav nav-pills flex-column mb-auto">
+                    <li class="nav-item mt-2 rounded">
+                        <a href="{% url 'admin_dashboard' %}" class="nav-link list-group-item list-group-item-action link-body-emphasis" aria-current="page">
+                        <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#home"></use></svg>
+                        All Maintenance
+                        </a>
+                    </li>
+                    <li class="nav-item mt-2 t-2 rounded">
+                        <a href="{% url 'admin_user_dashboard' %}" class="nav-link list-group-item list-group-item-action  active">
+                        <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#speedometer2"></use></svg>
+                        My Maintenance
+                        </a>
+                    </li>
+                    </ul>
+                    <hr>
+                    <div class="dropdown">
+                    <a class="d-flex align-items-center link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="../../media/user_icon.png" alt="" width="32" height="32" class="rounded-circle me-2">
+                        <strong>{{ user.username|capfirst }}</strong>
+                    </a>
+                    <ul class="dropdown-menu text-small shadow">
+                        <li><a class="dropdown-item" href="{% url 'logout' %}">Sign out</a></li>
+                    </ul>
+                    </div>
+                </div>
+            </div>
+
+        
+
+            <!-- Content Area -->
+            <div class="col py-3">
+
+                <h1 class="m-4">My Maintenance</h1>
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+</html>
