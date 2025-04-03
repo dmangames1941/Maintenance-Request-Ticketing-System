@@ -96,3 +96,7 @@ def ticket_create(request):
 def ticket_page(request, id):
     ticket = Ticket.objects.get(id=id)
     return render(request, 'ticket_page.html', {'ticket': ticket})
+
+@login_required(login_url="/")
+def update_ticket(request):
+    return render(request, 'update_ticket.html')

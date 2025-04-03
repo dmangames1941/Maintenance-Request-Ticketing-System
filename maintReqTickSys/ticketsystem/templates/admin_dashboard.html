@@ -84,7 +84,7 @@
                                         <td>{{ ticket.created_date|date:"M d, Y" }}</td>
                                         <td>{{ ticket.category|capfirst }}</td>
                                         <td>{{ ticket.status|capfirst }}</td>
-                                        <td><a href="{% url 'page' id=ticket.id %}" class="btn btn-primary stretched-link">link</a></td>
+                                       
                                     </tr>
                                 {% endfor %}
 
