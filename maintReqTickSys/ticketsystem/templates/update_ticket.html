@@ -6,8 +6,15 @@
     {% load bootstrap5 %}
     {% bootstrap_css %}
     {% bootstrap_javascript %}
+    {% load crispy_forms_tags %}
 </head>
 <body>
     <h1>Update Ticket Page</h1>
+    <div class="container">
+        <form method="POST" action="" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% crispy form %}
+        </form>
+    </div>
 </body>
 </html>

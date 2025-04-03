@@ -99,4 +99,25 @@ def ticket_page(request, id):
 
 @login_required(login_url="/")
 def update_ticket(request):
-    return render(request, 'update_ticket.html')
+    if request.method == 'POST':
+        form = forms.UpdateTicket(request.POST, request.FILES)
+
+        if form.is_valid():
+            # Don't save ticket to DB yet
+            ticket = form.save(commit=False) 
+            # Automatically fill in the field submitter for ticket
+            ticket.submitter = request.user
+            ticket.save()
+            messages.success(request, 'Ticket has been made')
+
+            # Send users name to tenant page
+            context = {
+                'user': request.user,
+                'tickets': Ticket.objects.all()
+            }
+
+            return render(request, 'Admin_dashboard.html', context)
+
+    else:
+        form = forms.UpdateTicket()
+    return render(request, 'update_ticket.html', {'form':form})

@@ -44,3 +44,21 @@ class CreateTicket(forms.ModelForm):
 
             Submit('submit', 'Submit')
         )
+
+class UpdateTicket(forms.ModelForm):
+    class Meta:
+        model = models.Ticket
+        fields = ['status']
+        labels = {
+            'status': 'Ticket Status'
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_class = "mt-5"
+        self.helper.layout = Layout(
+            'status',
+
+            Submit('submit', 'Submit')
+        )
