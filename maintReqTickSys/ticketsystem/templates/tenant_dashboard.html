@@ -19,9 +19,11 @@
             transition:box-shadow 0.5s, border-color;
         }
     </style>
-    <script>$('#myModal').on('shown.bs.modal', function () {
+    <script>
+        $('#myModal').on('shown.bs.modal', function () {
         $('#myInput').trigger('focus')
-      })</script>
+      })
+    </script>
 </head>
 <body>
     <!-- Header of Dashboard -->
@@ -29,18 +31,21 @@
 
         <div class="row">
             <div class="col-sm-2 align-self-center mx-auto d-flex justify-content-center" >
-                <img src="../../media/logo_light.png" class="img-fluid" alt="Property Maintenance">
+                <img src="../../media/logo_light.png" class="img-fluid" style="max-width: 100px;" alt="Property Maintenance">
             </div>
             <div class="col-lg my-auto">
 
                 <!-- If the user is logged in then show their name. Else, display static text -->
                 {% if user.is_authenticated %}
-                <h1 class="my-auto">Hello, {{ user.username|capfirst }}!</h1>
+                <h1 class="my-auto dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Hello, {{ user.username|capfirst }}!</h1>
                 {% else %}
-                    <p>Hello, Guest!</p>
+                    <p class="my-auto dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Hello, Guest!</p>
                 {% endif %}
-
+                <ul class="dropdown-menu text-small shadow">
+                    <li><a class="dropdown-item" href="{% url 'logout' %}">Sign out</a></li>
+                </ul>
             </div>
+    
             <div class="col-sm-3 my-auto text-center" >
                     <!-- Button trigger modal -->
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModalLong">

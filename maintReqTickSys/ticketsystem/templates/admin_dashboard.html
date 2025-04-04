@@ -56,68 +56,211 @@
             <div class="col py-3 overflow-hidden" style="height: 100vh;">
 
                 <h1 class="m-4">All Maintenance</h1>
-                <div class="col m-2 p-3 justify-content-center bg-light" style="max-height: 80vh;">
+                <div class="col m-2 p-3 justify-content-center bg-light" style="height: 78vh;">
 
                     <!-- Tabs to load specific table -->
                     <div class="row">
-                        <ul class="nav nav-tabs">
-                            <li class="nav-item">
-                                <a class="nav-link active filter-tab" aria-current="page" data-filter="all" href="#">All</a>
+                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link active filter-tab"id="all-tab" data-bs-toggle="tab" data-bs-target="#all" role="tab" aria-controls="all" aria-selected="true">All</a>
                             </li>
-                            <li class="nav-item filter-tab">
-                                <a class="nav-link" data-filter="electrical" href="#">Electrical</a>
+                            <li class="nav-item filter-tab" role="presentation">
+                                <a class="nav-link" data-filter="electrical" id="electrical-tab" data-bs-toggle="tab" data-bs-target="#electrical" role="tab" aria-controls="electrical" aria-selected="false">Electrical</a>
                             </li>
-                            <li class="nav-item filter-tab">
-                                <a class="nav-link" data-filter="plumbing" href="#">Plumbing</a>
+                            <li class="nav-item filter-tab" role="presentation">
+                                <a class="nav-link" data-filter="plumbing" id="plumbing-tab" data-bs-toggle="tab" data-bs-target="#plumbing" role="tab" aria-controls="plumbing" aria-selected="false">Plumbing</a>
                             </li>
-                            <li class="nav-item filter-tab">
-                                <a class="nav-link" data-filter="general" href="#">General</a>
+                            <li class="nav-item filter-tab" role="presentation">
+                                <a class="nav-link" data-filter="general" id="general-tab" data-bs-toggle="tab" data-bs-target="#general" role="tab" aria-controls="general" aria-selected="false">General</a>
                             </li>
                         </ul>
                     </div>
 
                       <!-- Table to display tickets -->
-                    <div class="row">
-                        <form method="POST" class="w-100">
-                            {% csrf_token %}
-                            <div class="w-100 h-50 d-inline-block table-responsive">
-                                <table class="table table-striped overflow-auto">
-                                    <thead>
-                                    <tr>
-                                        <th scope="col"></th>
-                                        <th scope="col">Asignee</th>
-                                        <th scope="col">Title</th>
-                                        <th scope="col">Apt</th>
-                                        <th scope="col">Priority</th>
-                                        <th scope="col">Date</th>
-                                        <th scope="col">Type</th>
-                                        <th scope="col">Status</th>
-                                        <th scope="col">Temp Link</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                        {% for ticket in tickets %}
-                                            <tr>
-                                                <th scope="row"><input class="form-check-input me-1"  type="checkbox" name="my_checkboxes[]" value="{{ ticket.id }}" aria-label="checkbox"></th>
-                                                <td>{{ ticket.assigned_admin|capfirst }}</td>
-                                                <td>{{ ticket.title|capfirst }}</td>
-                                                <td>{{ ticket.submitter.userprofile.building_name|slice:3 }} {{ ticket.submitter.userprofile.apartment_number }}</td>
-                                                <td>{{ ticket.priority|capfirst }}</td>
-                                                <td>{{ ticket.created_date|date:"M d, Y" }}</td>
-                                                <td>{{ ticket.category|capfirst }}</td>
-                                                <td>{{ ticket.status|capfirst }}</td>
-                                                <td><a href="{% url 'admin_page' id=ticket.id %}">{{ ticket.id }}</a></td>
-                                            </tr>
-                                        {% endfor %}
+                    <div class="row tab-content" id="myTabContent">
 
-                                    </tbody>
-                                </table>
-                            </div>
-                            <!-- Right-align the button -->
-                            <div class="d-flex justify-content-end m-4">
-                                <button type="submit" class="btn btn-primary">Self Assign</button>
-                            </div>
-                        </form>
+                        <!-- Tab for All Tickets -->
+                        <div class="tab-pane fade show active" id="all" role="tabpanel" aria-labelledby="all-tab">
+                            <form method="POST" class="w-100" style="height: 55vh;">
+                                {% csrf_token %}
+                                <div class="w-100 h-100 d-inline-block table-responsive" >
+                                    <table class="table table-striped overflow-auto">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col"></th>
+                                            <th scope="col">Asignee</th>
+                                            <th scope="col">Title</th>
+                                            <th scope="col">Apt</th>
+                                            <th scope="col">Priority</th>
+                                            <th scope="col">Date</th>
+                                            <th scope="col">Type</th>
+                                            <th scope="col">Status</th>
+                                            <th scope="col">Temp Link</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for ticket in tickets %}
+                                                <tr>
+                                                    <th scope="row"><input class="form-check-input me-1"  type="checkbox" name="my_checkboxes[]" value="{{ ticket.id }}" aria-label="checkbox"></th>
+                                                    <td>{{ ticket.assigned_admin|capfirst }}</td>
+                                                    <td>{{ ticket.title|capfirst }}</td>
+                                                    <td>{{ ticket.submitter.userprofile.building_name|slice:3 }} {{ ticket.submitter.userprofile.apartment_number }}</td>
+                                                    <td>{{ ticket.priority|capfirst }}</td>
+                                                    <td>{{ ticket.created_date|date:"M d, Y" }}</td>
+                                                    <td>{{ ticket.category|capfirst }}</td>
+                                                    <td>{{ ticket.status|capfirst }}</td>
+                                                    <td><a href="{% url 'admin_page' id=ticket.id %}">{{ ticket.id }}</a></td>
+                                                </tr>
+                                            {% endfor %}
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- Right-align the button -->
+                                <div class="d-flex justify-content-end m-4">
+                                    <button type="submit" class="btn btn-primary">Self Assign</button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- Tab for Electrical Tickets -->
+                        <div class="tab-pane fade" id="electrical" role="tabpanel" aria-labelledby="electrical-tab">
+                            <form method="POST" class="w-100" style="height: 55vh;">
+                                {% csrf_token %}
+                                <div class="w-100 d-inline-block table-responsive" >
+                                    <table class="table table-striped overflow-auto h-100">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col"></th>
+                                            <th scope="col">Asignee</th>
+                                            <th scope="col">Title</th>
+                                            <th scope="col">Apt</th>
+                                            <th scope="col">Priority</th>
+                                            <th scope="col">Date</th>
+                                            <th scope="col">Type</th>
+                                            <th scope="col">Status</th>
+                                            <th scope="col">Temp Link</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for ticket in tickets %}
+                                                {% if ticket.category == "electrical" %}
+                                                <tr>
+                                                    <th scope="row"><input class="form-check-input me-1"  type="checkbox" name="my_checkboxes[]" value="{{ ticket.id }}" aria-label="checkbox"></th>
+                                                    <td>{{ ticket.assigned_admin|capfirst }}</td>
+                                                    <td>{{ ticket.title|capfirst }}</td>
+                                                    <td>{{ ticket.submitter.userprofile.building_name|slice:3 }} {{ ticket.submitter.userprofile.apartment_number }}</td>
+                                                    <td>{{ ticket.priority|capfirst }}</td>
+                                                    <td>{{ ticket.created_date|date:"M d, Y" }}</td>
+                                                    <td>{{ ticket.category|capfirst }}</td>
+                                                    <td>{{ ticket.status|capfirst }}</td>
+                                                    <td><a href="{% url 'admin_page' id=ticket.id %}">{{ ticket.id }}</a></td>
+                                                </tr>
+                                                {% endif %}
+                                            {% endfor %}
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- Right-align the button -->
+                                <div class="d-flex justify-content-end m-4">
+                                    <button type="submit" class="btn btn-primary">Self Assign</button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- Tab for Plumbing Tickets -->
+                        <div class="tab-pane fade" id="plumbing" role="tabpanel" aria-labelledby="plumbing-tab">
+                            <form method="POST" class="w-100" style="height: 55vh;">
+                                {% csrf_token %}
+                                <div class="w-100 d-inline-block table-responsive" >
+                                    <table class="table table-striped overflow-auto h-100">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col"></th>
+                                            <th scope="col">Asignee</th>
+                                            <th scope="col">Title</th>
+                                            <th scope="col">Apt</th>
+                                            <th scope="col">Priority</th>
+                                            <th scope="col">Date</th>
+                                            <th scope="col">Type</th>
+                                            <th scope="col">Status</th>
+                                            <th scope="col">Temp Link</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for ticket in tickets %}
+                                                {% if ticket.category == "plumbing" %}
+                                                <tr>
+                                                    <th scope="row"><input class="form-check-input me-1"  type="checkbox" name="my_checkboxes[]" value="{{ ticket.id }}" aria-label="checkbox"></th>
+                                                    <td>{{ ticket.assigned_admin|capfirst }}</td>
+                                                    <td>{{ ticket.title|capfirst }}</td>
+                                                    <td>{{ ticket.submitter.userprofile.building_name|slice:3 }} {{ ticket.submitter.userprofile.apartment_number }}</td>
+                                                    <td>{{ ticket.priority|capfirst }}</td>
+                                                    <td>{{ ticket.created_date|date:"M d, Y" }}</td>
+                                                    <td>{{ ticket.category|capfirst }}</td>
+                                                    <td>{{ ticket.status|capfirst }}</td>
+                                                    <td><a href="{% url 'admin_page' id=ticket.id %}">{{ ticket.id }}</a></td>
+                                                </tr>
+                                                {% endif %}
+                                            {% endfor %}
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- Right-align the button -->
+                                <div class="d-flex justify-content-end m-4">
+                                    <button type="submit" class="btn btn-primary">Self Assign</button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- Tab for General Tickets -->
+                        <div class="tab-pane fade" id="general" role="tabpanel" aria-labelledby="general-tab">
+                            <form method="POST" class="w-100" style="height: 55vh;">
+                                {% csrf_token %}
+                                <div class="w-100 d-inline-block table-responsive" >
+                                    <table class="table table-striped overflow-auto h-100">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col"></th>
+                                            <th scope="col">Asignee</th>
+                                            <th scope="col">Title</th>
+                                            <th scope="col">Apt</th>
+                                            <th scope="col">Priority</th>
+                                            <th scope="col">Date</th>
+                                            <th scope="col">Type</th>
+                                            <th scope="col">Status</th>
+                                            <th scope="col">Temp Link</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for ticket in tickets %}
+                                                {% if ticket.category == "general" %}
+                                                <tr>
+                                                    <th scope="row"><input class="form-check-input me-1"  type="checkbox" name="my_checkboxes[]" value="{{ ticket.id }}" aria-label="checkbox"></th>
+                                                    <td>{{ ticket.assigned_admin|capfirst }}</td>
+                                                    <td>{{ ticket.title|capfirst }}</td>
+                                                    <td>{{ ticket.submitter.userprofile.building_name|slice:3 }} {{ ticket.submitter.userprofile.apartment_number }}</td>
+                                                    <td>{{ ticket.priority|capfirst }}</td>
+                                                    <td>{{ ticket.created_date|date:"M d, Y" }}</td>
+                                                    <td>{{ ticket.category|capfirst }}</td>
+                                                    <td>{{ ticket.status|capfirst }}</td>
+                                                    <td><a href="{% url 'admin_page' id=ticket.id %}">{{ ticket.id }}</a></td>
+                                                </tr>
+                                                {% endif %}
+                                            {% endfor %}
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- Right-align the button -->
+                                <div class="d-flex justify-content-end m-4">
+                                    <button type="submit" class="btn btn-primary">Self Assign</button>
+                                </div>
+                            </form>
+                        </div>
+                        
                     </div>
                 </div>
             </div>
