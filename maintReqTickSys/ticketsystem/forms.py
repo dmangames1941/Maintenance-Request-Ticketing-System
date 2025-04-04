@@ -2,6 +2,7 @@ from django import forms
 from . import models
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit, Row, Column
+from crispy_forms.layout import Div
 
 # class CreateTicket(forms.ModelForm):
 #     class Meta:
@@ -42,5 +43,9 @@ class CreateTicket(forms.ModelForm):
             'description',
             'image',
 
-            Submit('submit', 'Submit')
+            # Added so that submit button is right aligned
+            Div(
+                Submit('submit', 'Submit', css_class="btn btn-primary"),
+                css_class="d-flex justify-content-end"
+            )
         )

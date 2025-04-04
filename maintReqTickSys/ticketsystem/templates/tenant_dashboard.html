@@ -5,6 +5,7 @@
     {% load bootstrap5 %}
     {% bootstrap_css %}
     {% bootstrap_javascript %}
+    {% load crispy_forms_tags %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tenant User Dashboard</title>
@@ -18,6 +19,9 @@
             transition:box-shadow 0.5s, border-color;
         }
     </style>
+    <script>$('#myModal').on('shown.bs.modal', function () {
+        $('#myInput').trigger('focus')
+      })</script>
 </head>
 <body>
     <!-- Header of Dashboard -->
@@ -38,10 +42,35 @@
 
             </div>
             <div class="col-sm-3 my-auto text-center" >
-                    <a class="btn btn-primary" href="{% url 'ticket_create' %}" role="button">New Request</a>
+                    <!-- Button trigger modal -->
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModalLong">
+                    New Request
+                </button>
             </div>
         </div>
     </div>
+
+  <!-- Modal -->
+  <div class="modal fade bd-example-modal-lg" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">New Maintenance Request</h5>
+          <button type="button" class="close btn-danger rounded" data-bs-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">X</span>
+          </button>
+        </div>
+        
+        <form method="POST" action="" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="modal-body">
+                {% crispy form %}
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
 
     <!-- Open Request Tickets Shown -->
     <div class="container my-2">
@@ -124,6 +153,7 @@
     <div>
         <a href="{% url 'logout' %}">TEMPORARY LOGOUT BUTTON -- PLEASE FIX STYLE</a>
     </div>
-    
+
+
 </body>
 </html>

@@ -38,11 +38,25 @@ def user_logout(request):
 @login_required(login_url="/")
 def tenant_dashboard(request):
     # Send users name to tenant page
+    form = forms.CreateTicket()
+    if request.method == 'POST':
+        form = forms.CreateTicket(request.POST, request.FILES)
+        if form.is_valid():
+            # Don't save ticket to DB yet
+            ticket = form.save(commit=False) 
+            # Automatically fill in the field submitter for ticket
+            ticket.submitter = request.user
+            ticket.save()
+            messages.success(request, 'Ticket has been made')
+            return redirect('tenant_dashboard')  # Redirect to clear POST data
+
     context = {
         'user': request.user,
-        'tickets': Ticket.objects.all()
+        'tickets': Ticket.objects.all(),
+        'form': form,
     }
     return render(request, 'tenant_dashboard.html', context)
+
 
 @login_required(login_url="/")
 def admin_dashboard(request):
@@ -80,31 +94,6 @@ def admin_user_dashboard(request):
 
     return render(request, 'admin_user_dashboard.html', context)
 
-@login_required(login_url="/")
-def ticket_create(request):
-    if request.method == 'POST':
-        form = forms.CreateTicket(request.POST, request.FILES)
-
-        if form.is_valid():
-            # Don't save ticket to DB yet
-            ticket = form.save(commit=False) 
-            # Automatically fill in the field submitter for ticket
-            ticket.submitter = request.user
-            ticket.save()
-            messages.success(request, 'Ticket has been made')
-
-            # Send users name to tenant page
-            context = {
-                'user': request.user,
-                'tickets': Ticket.objects.all()
-            }
-
-            return render(request, 'Tenant_dashboard.html', context)
-
-    else:
-        form = forms.CreateTicket()
-    return render(request, 'ticket_create.html', {'form':form})
-   
 @login_required(login_url="/")
 def ticket_page(request, id):
     ticket = Ticket.objects.get(id=id)
