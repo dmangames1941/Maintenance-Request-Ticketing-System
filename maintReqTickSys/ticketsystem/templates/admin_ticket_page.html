@@ -1,0 +1,115 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ticket: {{ticket.title}} </title>
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    {% load crispy_forms_tags %}
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+<h1>Admin Ticket Page</h1>
+    <div class="container">
+
+        <div class="row">
+            <div class="col-sm-2 align-self-center mx-auto d-flex justify-content-center" >
+                <img src="../../media/logo_light.png" class="img-fluid" alt="Property Maintenance">
+            </div>
+            <div class="col-lg my-auto">
+
+                <h1>Request Ticket {{ ticket.title }}</h1>
+
+            </div>
+            <div class="col-sm-3 my-auto text-center" >
+                    <a class="btn btn-danger" href="{% url 'admin_dashboard' %}" role="button">Back</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class=col>
+                <a href="{% url 'admin_dashboard' %}">Admin Dashboard</a> /
+                <a href ="">{{ticket.title}}</a>
+            </div>
+
+            <!--Add Comment Button-->
+            <div class="col-sm-3 my-auto text-center" >
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModalLong">
+                    Update Status
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade bd-example-modal-lg" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">Update Status Form</h5>
+            <button type="button" class="close btn-danger rounded" data-bs-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">X</span>
+            </button>
+            </div>
+
+            <form method="POST" action="" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="modal-body">
+                    {{ form_ticket.as_p }}
+                    {{ form_comment.content.label_tag }}
+                    {{ form_comment.content }}
+                    {{ form_comment.content.errors }}
+                    <div class="d-flex justify-content-end">
+                        <button type="submit" class="btn btn-primary ">Submit</button>
+                    </div>
+                </div>
+            </form>
+            
+        </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <h3>{{ ticket.title }}</h3>
+        </div>
+        <div class="row">
+            <h5>{{ ticket.submitter|capfirst }}</h5>
+        </div>
+        <div class="row">
+            <h5>{{ ticket.created_date }}</h5>
+        </div>
+        <div class="row">
+            
+            <div class="col">
+                <h6>Description</h6>
+                <p>{{ticket.description}}<p>
+            </div>
+            <div class="col">
+                <h6>Status: {{ ticket.status }}</h6>
+                <div class="">
+                    <div class = "row">
+                        <p>Updates:</p>
+                    </div>
+                    <div class="row">
+                        <h1>Comments:</h1>
+                        <div>
+                            {% for comment in comments %}
+                                <p>{{ comment.user }}: {{ comment.content }} {{ comment.created_date }}</p>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            <div class="col">
+                Graph
+            </div>
+                
+            </div>
+        </div>
+    </div>
+    </div>
+</body>
+</html>

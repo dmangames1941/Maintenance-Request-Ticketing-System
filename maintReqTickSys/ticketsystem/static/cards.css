@@ -1,0 +1,11 @@
+.cards:hover{
+    border-color: lightskyblue;
+}
+
+a.active .cards {
+    border-color: #007bff;
+}
+
+.card-title {
+    color:black;
+}
