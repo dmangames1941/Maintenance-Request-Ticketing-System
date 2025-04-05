@@ -100,7 +100,7 @@
                                         </thead>
                                         <tbody>
                                             {% for ticket in tickets %}
-                                                <tr>
+                                                <tr style="cursor: pointer;" onclick="handleRowClick(event, '{% url 'admin_page' id=ticket.id %}')">
                                                     <th scope="row"><input class="form-check-input me-1"  type="checkbox" name="my_checkboxes[]" value="{{ ticket.id }}" aria-label="checkbox"></th>
                                                     <td>{{ ticket.assigned_admin|capfirst }}</td>
                                                     <td>{{ ticket.title|capfirst }}</td>
@@ -109,7 +109,10 @@
                                                     <td>{{ ticket.created_date|date:"M d, Y" }}</td>
                                                     <td>{{ ticket.category|capfirst }}</td>
                                                     <td>{{ ticket.status|capfirst }}</td>
-                                                    <td><a href="{% url 'admin_page' id=ticket.id %}">{{ ticket.id }}</a></td>
+                                                    <td class="position-relative">
+                                                        <a class="stretched-link" href="{% url 'admin_page' id=ticket.id %}"></a>
+                                                    </td>
+                                                    
                                                 </tr>
                                             {% endfor %}
 
@@ -139,13 +142,12 @@
                                             <th scope="col">Date</th>
                                             <th scope="col">Type</th>
                                             <th scope="col">Status</th>
-                                            <th scope="col">Temp Link</th>
                                         </tr>
                                         </thead>
                                         <tbody>
                                             {% for ticket in tickets %}
                                                 {% if ticket.category == "electrical" %}
-                                                <tr>
+                                                <tr style="cursor: pointer;" onclick="handleRowClick(event, '{% url 'admin_page' id=ticket.id %}')">
                                                     <th scope="row"><input class="form-check-input me-1"  type="checkbox" name="my_checkboxes[]" value="{{ ticket.id }}" aria-label="checkbox"></th>
                                                     <td>{{ ticket.assigned_admin|capfirst }}</td>
                                                     <td>{{ ticket.title|capfirst }}</td>
@@ -154,7 +156,6 @@
                                                     <td>{{ ticket.created_date|date:"M d, Y" }}</td>
                                                     <td>{{ ticket.category|capfirst }}</td>
                                                     <td>{{ ticket.status|capfirst }}</td>
-                                                    <td><a href="{% url 'admin_page' id=ticket.id %}">{{ ticket.id }}</a></td>
                                                 </tr>
                                                 {% endif %}
                                             {% endfor %}
@@ -185,13 +186,12 @@
                                             <th scope="col">Date</th>
                                             <th scope="col">Type</th>
                                             <th scope="col">Status</th>
-                                            <th scope="col">Temp Link</th>
                                         </tr>
                                         </thead>
                                         <tbody>
                                             {% for ticket in tickets %}
                                                 {% if ticket.category == "plumbing" %}
-                                                <tr>
+                                                <tr style="cursor: pointer;" onclick="handleRowClick(event, '{% url 'admin_page' id=ticket.id %}')">
                                                     <th scope="row"><input class="form-check-input me-1"  type="checkbox" name="my_checkboxes[]" value="{{ ticket.id }}" aria-label="checkbox"></th>
                                                     <td>{{ ticket.assigned_admin|capfirst }}</td>
                                                     <td>{{ ticket.title|capfirst }}</td>
@@ -200,7 +200,6 @@
                                                     <td>{{ ticket.created_date|date:"M d, Y" }}</td>
                                                     <td>{{ ticket.category|capfirst }}</td>
                                                     <td>{{ ticket.status|capfirst }}</td>
-                                                    <td><a href="{% url 'admin_page' id=ticket.id %}">{{ ticket.id }}</a></td>
                                                 </tr>
                                                 {% endif %}
                                             {% endfor %}
@@ -231,13 +230,12 @@
                                             <th scope="col">Date</th>
                                             <th scope="col">Type</th>
                                             <th scope="col">Status</th>
-                                            <th scope="col">Temp Link</th>
                                         </tr>
                                         </thead>
                                         <tbody>
                                             {% for ticket in tickets %}
                                                 {% if ticket.category == "general" %}
-                                                <tr>
+                                                <tr style="cursor: pointer;" onclick="handleRowClick(event, '{% url 'admin_page' id=ticket.id %}')">
                                                     <th scope="row"><input class="form-check-input me-1"  type="checkbox" name="my_checkboxes[]" value="{{ ticket.id }}" aria-label="checkbox"></th>
                                                     <td>{{ ticket.assigned_admin|capfirst }}</td>
                                                     <td>{{ ticket.title|capfirst }}</td>
@@ -246,7 +244,6 @@
                                                     <td>{{ ticket.created_date|date:"M d, Y" }}</td>
                                                     <td>{{ ticket.category|capfirst }}</td>
                                                     <td>{{ ticket.status|capfirst }}</td>
-                                                    <td><a href="{% url 'admin_page' id=ticket.id %}">{{ ticket.id }}</a></td>
                                                 </tr>
                                                 {% endif %}
                                             {% endfor %}
@@ -268,6 +265,13 @@
         </div>
 
     </div>
-
+    <script>
+        function handleRowClick(event, url) {
+            if (event.target.tagName.toLowerCase() === 'input' || event.target.closest('th')) {
+                return;
+            }
+            window.location.href = url;
+        }
+    </script>
 </body>
 </html>

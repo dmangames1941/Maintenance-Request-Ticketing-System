@@ -240,7 +240,7 @@
                                             </thead>
                                             <tbody>
                                                 {% for ticket in tickets %}
-                                                    <tr>
+                                                    <tr style="cursor: pointer;" onclick="window.location.href='{% url 'admin_page' id=ticket.id %}'">
                                                         <th>{{ ticket.title|capfirst }}</th>
                                                         <td>{{ ticket.submitter.userprofile.building_name|slice:3 }} {{ ticket.submitter.userprofile.apartment_number }}</td>
                                                         <td class="text-center">{{ ticket.priority|slice:3 |capfirst  }}</td>
@@ -271,7 +271,7 @@
                                             <tbody>
                                                 {% for ticket in tickets %}
                                                     {% if ticket.status == "submitted" %}
-                                                        <tr>
+                                                        <tr style="cursor: pointer;" onclick="window.location.href='{% url 'admin_page' id=ticket.id %}'">
                                                             <th>{{ ticket.title|capfirst }}</th>
                                                             <td>{{ ticket.submitter.userprofile.building_name|slice:3 }} {{ ticket.submitter.userprofile.apartment_number }}</td>
                                                             <td class="text-center">{{ ticket.priority|slice:3 |capfirst  }}</td>
@@ -303,7 +303,7 @@
                                             <tbody>
                                                 {% for ticket in tickets %}
                                                     {% if ticket.status == "in_progress" %}
-                                                        <tr>
+                                                        <tr style="cursor: pointer;" onclick="window.location.href='{% url 'admin_page' id=ticket.id %}'">
                                                             <th>{{ ticket.title|capfirst }}</th>
                                                             <td>{{ ticket.submitter.userprofile.building_name|slice:3 }} {{ ticket.submitter.userprofile.apartment_number }}</td>
                                                             <td class="text-center">{{ ticket.priority|slice:3 |capfirst  }}</td>
@@ -335,7 +335,7 @@
                                             <tbody>
                                                 {% for ticket in tickets %}
                                                     {% if ticket.status == "completed" %}
-                                                        <tr>
+                                                        <tr style="cursor: pointer;" onclick="window.location.href='{% url 'admin_page' id=ticket.id %}'">
                                                             <th>{{ ticket.title|capfirst }}</th>
                                                             <td>{{ ticket.submitter.userprofile.building_name|slice:3 }} {{ ticket.submitter.userprofile.apartment_number }}</td>
                                                             <td class="text-center">{{ ticket.priority|slice:3 |capfirst  }}</td>
