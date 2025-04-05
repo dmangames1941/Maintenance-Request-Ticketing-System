@@ -82,7 +82,7 @@ def admin_dashboard(request):
     return render(request, 'admin_dashboard.html', context)
 
 @login_required(login_url="/")
-def admin_user_dashboard(request):
+def admin_my_maintenance(request):
     userProfile = UserProfile.objects.get(user=request.user)
     if userProfile.role == "tenant":
         return redirect('tenant_dashboard')
@@ -92,7 +92,7 @@ def admin_user_dashboard(request):
         'tickets': Ticket.objects.all()
     }
 
-    return render(request, 'admin_user_dashboard.html', context)
+    return render(request, 'admin_my_maintenance.html', context)
 
 @login_required(login_url="/")
 def ticket_page(request, id):

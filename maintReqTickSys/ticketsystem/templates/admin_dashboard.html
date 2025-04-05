@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Admin Dashboard</title>
+    <title>All Maintenance</title>
     {% load bootstrap5 %}
     {% bootstrap_css %}
     {% bootstrap_javascript %}
@@ -31,7 +31,7 @@
                         </a>
                     </li>
                     <li class="nav-item mt-2 t-2 rounded">
-                        <a href="{% url 'admin_user_dashboard' %}" class="nav-link list-group-item list-group-item-action link-body-emphasis">
+                        <a href="{% url 'admin_my_maintenance' %}" class="nav-link list-group-item list-group-item-action link-body-emphasis">
                         <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#speedometer2"></use></svg>
                         My Maintenance
                         </a>
@@ -76,7 +76,7 @@
                         </ul>
                     </div>
 
-                      <!-- Table to display tickets -->
+                    <!-- Table to display tickets -->
                     <div class="row tab-content" id="myTabContent">
 
                         <!-- Tab for All Tickets -->
