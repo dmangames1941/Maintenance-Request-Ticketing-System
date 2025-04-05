@@ -18,9 +18,8 @@ CATEGORY_CHOICES = [
     ]
 
 class CreateTicket(forms.ModelForm):
-   
     class Meta:
-        model = models.Ticket
+        model_ticket = models.Ticket
         fields = ['title', 'category', 'description', 'image']
         labels = {
             'title': 'Issue Title',
@@ -48,4 +47,44 @@ class CreateTicket(forms.ModelForm):
                 Submit('submit', 'Submit', css_class="btn btn-primary"),
                 css_class="d-flex justify-content-end"
             )
+        )
+
+
+class UpdateTicket(forms.ModelForm):
+    class Meta:
+        model = models.Ticket
+        fields = ['status']
+        labels = {
+            'status': 'Status:',
+        }
+        widgets = {
+            'status': forms.Select(),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_class = "mt-5"
+        self.helper.layout = Layout(
+            'status',
+        )
+
+class CreateComment(forms.ModelForm):
+    class Meta:
+        model = models.Comment
+        fields = ['content']
+        labels = {
+            'content': 'Please add a description:',
+        }
+        widgets = {
+            'content': forms.Textarea(attrs={'rows': 3, 'placeholder': 'Add your update...'}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_method = 'post'
+        self.helper.form_class = "mt-5"
+        self.helper.layout = Layout(
+            'content',
         )

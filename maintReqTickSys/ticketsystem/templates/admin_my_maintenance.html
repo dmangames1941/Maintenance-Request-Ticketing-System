@@ -240,14 +240,15 @@
                                             </thead>
                                             <tbody>
                                                 {% for ticket in tickets %}
-                                                    <tr style="cursor: pointer;" onclick="window.location.href='{% url 'admin_page' id=ticket.id %}'">
-                                                        <th>{{ ticket.title|capfirst }}</th>
-                                                        <td>{{ ticket.submitter.userprofile.building_name|slice:3 }} {{ ticket.submitter.userprofile.apartment_number }}</td>
-                                                        <td class="text-center">{{ ticket.priority|slice:3 |capfirst  }}</td>
-                                                        <td class="text-center">{{ ticket.category|slice:3 |capfirst }}</td>
-                                                        <td>{{ ticket.status|capfirst }}</td>
-                                                        {% comment %} <td><a href="{% url 'admin_page' id=ticket.id %}">{{ ticket.id }}</a></td> {% endcomment %}
-                                                    </tr>
+                                                    {% if ticket.assigned_admin == user %}
+                                                        <tr style="cursor: pointer;" onclick="window.location.href='{% url 'admin_ticket_page' id=ticket.id %}'">
+                                                            <th>{{ ticket.title|capfirst }}</th>
+                                                            <td>{{ ticket.submitter.userprofile.building_name|slice:3 }} {{ ticket.submitter.userprofile.apartment_number }}</td>
+                                                            <td class="text-center">{{ ticket.priority|slice:3 |capfirst  }}</td>
+                                                            <td class="text-center">{{ ticket.category|slice:3 |capfirst }}</td>
+                                                            <td>{{ ticket.status|capfirst }}</td>
+                                                        </tr>
+                                                    {% endif %}
                                                 {% endfor %}
                                             </tbody>
                                         </table>
@@ -270,14 +271,13 @@
                                             </thead>
                                             <tbody>
                                                 {% for ticket in tickets %}
-                                                    {% if ticket.status == "submitted" %}
-                                                        <tr style="cursor: pointer;" onclick="window.location.href='{% url 'admin_page' id=ticket.id %}'">
+                                                    {% if ticket.status == "submitted" and ticket.assigned_admin == user %}
+                                                        <tr style="cursor: pointer;" onclick="window.location.href='{% url 'admin_ticket_page' id=ticket.id %}'">
                                                             <th>{{ ticket.title|capfirst }}</th>
                                                             <td>{{ ticket.submitter.userprofile.building_name|slice:3 }} {{ ticket.submitter.userprofile.apartment_number }}</td>
                                                             <td class="text-center">{{ ticket.priority|slice:3 |capfirst  }}</td>
                                                             <td class="text-center">{{ ticket.category|slice:3 |capfirst }}</td>
                                                             <td>{{ ticket.status|capfirst }}</td>
-                                                            {% comment %} <td><a href="{% url 'admin_page' id=ticket.id %}">{{ ticket.id }}</a></td> {% endcomment %}
                                                         </tr>
                                                     {% endif %}
                                                 {% endfor %}
@@ -302,14 +302,13 @@
                                             </thead>
                                             <tbody>
                                                 {% for ticket in tickets %}
-                                                    {% if ticket.status == "in_progress" %}
-                                                        <tr style="cursor: pointer;" onclick="window.location.href='{% url 'admin_page' id=ticket.id %}'">
+                                                    {% if ticket.status == "in_progress" and ticket.assigned_admin == user %}
+                                                        <tr style="cursor: pointer;" onclick="window.location.href='{% url 'admin_ticket_page' id=ticket.id %}'">
                                                             <th>{{ ticket.title|capfirst }}</th>
                                                             <td>{{ ticket.submitter.userprofile.building_name|slice:3 }} {{ ticket.submitter.userprofile.apartment_number }}</td>
                                                             <td class="text-center">{{ ticket.priority|slice:3 |capfirst  }}</td>
                                                             <td class="text-center">{{ ticket.category|slice:3 |capfirst }}</td>
                                                             <td>{{ ticket.status|capfirst }}</td>
-                                                            {% comment %} <td><a href="{% url 'admin_page' id=ticket.id %}">{{ ticket.id }}</a></td> {% endcomment %}
                                                         </tr>
                                                     {% endif %}
                                                 {% endfor %}
@@ -329,19 +328,17 @@
                                                     <th scope="col">Priority</th>
                                                     <th scope="col">Type</th>
                                                     <th scope="col">Status</th>
-                                                    {% comment %} <th scope="col">Temp Link</th> {% endcomment %}
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 {% for ticket in tickets %}
-                                                    {% if ticket.status == "completed" %}
-                                                        <tr style="cursor: pointer;" onclick="window.location.href='{% url 'admin_page' id=ticket.id %}'">
+                                                    {% if ticket.status == "completed" and ticket.assigned_admin == user %}
+                                                        <tr style="cursor: pointer;" onclick="window.location.href='{% url 'admin_ticket_page' id=ticket.id %}'">
                                                             <th>{{ ticket.title|capfirst }}</th>
                                                             <td>{{ ticket.submitter.userprofile.building_name|slice:3 }} {{ ticket.submitter.userprofile.apartment_number }}</td>
                                                             <td class="text-center">{{ ticket.priority|slice:3 |capfirst  }}</td>
                                                             <td class="text-center">{{ ticket.category|slice:3 |capfirst }}</td>
                                                             <td>{{ ticket.status|capfirst }}</td>
-                                                            {% comment %} <td><a href="{% url 'admin_page' id=ticket.id %}">{{ ticket.id }}</a></td> {% endcomment %}
                                                         </tr>
                                                     {% endif %}
                                                 {% endfor %}

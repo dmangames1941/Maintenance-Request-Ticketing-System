@@ -22,7 +22,7 @@
     <script>
         $('#myModal').on('shown.bs.modal', function () {
         $('#myInput').trigger('focus')
-      })
+    })
     </script>
 </head>
 <body>
@@ -55,26 +55,26 @@
         </div>
     </div>
 
-  <!-- Modal -->
-  <div class="modal fade bd-example-modal-lg" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">New Maintenance Request</h5>
-          <button type="button" class="close btn-danger rounded" data-bs-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">X</span>
-          </button>
-        </div>
-        
-        <form method="POST" action="" enctype="multipart/form-data">
-            {% csrf_token %}
-            <div class="modal-body">
-                {% crispy form %}
+    <!-- Modal -->
+    <div class="modal fade bd-example-modal-lg" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">New Maintenance Request</h5>
+            <button type="button" class="close btn-danger rounded" data-bs-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">X</span>
+            </button>
             </div>
-        </form>
-      </div>
+            
+            <form method="POST" action="" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="modal-body">
+                    {% crispy form %}
+                </div>
+            </form>
+        </div>
+        </div>
     </div>
-  </div>
 
 
     <!-- Open Request Tickets Shown -->

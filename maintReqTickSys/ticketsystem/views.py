@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import messages
-from .models import Ticket, User, UserProfile
+from .models import Ticket, User, UserProfile, Comment
 from . import forms
 
 def home(request):
@@ -106,4 +106,35 @@ def update_ticket(request):
 @login_required(login_url="/")
 def admin_ticket_page(request, id):
     ticket = Ticket.objects.get(id=id)
-    return render(request, 'admin_ticket_page.html', {'ticket': ticket})
+    form_ticket = forms.UpdateTicket()
+    form_comment = forms.CreateComment()
+
+    if request.method == 'POST':
+        form_ticket = forms.UpdateTicket(request.POST, instance=ticket)
+        form_comment = forms.CreateComment(request.POST, request.FILES)
+
+        if form_ticket.is_valid() and form_comment.is_valid():
+            
+            comment = form_comment.save(commit=False)
+            comment.ticket = ticket
+            comment.user = request.user
+            comment.save()
+            form_ticket.save()
+            print(comment.content)
+
+            return redirect('admin_ticket_page', id=ticket.id)  # Go to ticket individual page
+        
+
+    else:
+        form_ticket = forms.UpdateTicket(instance=ticket)  # Sets default in form to current status
+        form_comment = forms.CreateComment()
+
+    context = {
+        'ticket': ticket,
+        'comments': Comment.objects.all(),
+        'form_ticket': form_ticket,
+        'form_comment': form_comment,
+
+    }
+    
+    return render(request, 'admin_ticket_page.html', context)

@@ -11,5 +11,5 @@ urlpatterns = [
     path('admin-my-maintenance/', admin_my_maintenance, name='admin_my_maintenance'),
     path('<int:id>', ticket_page, name="page" ),
     path('update_ticket/', update_ticket, name='update_ticket'),
-    path('admin_dashboard/<int:id>', admin_ticket_page, name="admin_page" ),
+    path('admin_dashboard/<int:id>/', admin_ticket_page, name="admin_ticket_page" ),
 ]
