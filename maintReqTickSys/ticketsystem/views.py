@@ -99,31 +99,6 @@ def ticket_page(request, id):
 
 
 # Jessy
-# @login_required(login_url="/")
-# def update_ticket(request):
-
-#     if request.method == 'POST':
-#         form = forms.UpdateTicket(request.POST, request.FILES)
-
-#         if form.is_valid():
-    
-#             ticket = form.save(commit=False) 
-#             ticket.submitter = request.user
-#             ticket.save()
-#             messages.success(request, 'Ticket has been made')
-
-#             # Send users name to tenant page
-#             context = {
-#                 'user': request.user,
-#                 'tickets': Ticket.objects.all()
-#             }
-
-#             return render(request, 'Admin_dashboard.html', context)
-
-#     else:
-#         form = forms.UpdateTicket()
-#     return render(request, 'update_ticket.html', {'form':form})
-
 @login_required(login_url="/")
 def update_ticket(request, ticket_id):
     ticket = Ticket.objects.get(id=ticket_id)

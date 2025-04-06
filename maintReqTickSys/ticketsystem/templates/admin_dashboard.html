@@ -87,7 +87,7 @@
                                         <td>{{ ticket.priority|capfirst }}</td>
                                         <td>{{ ticket.created_date|date:"M d, Y" }}</td>
                                         <td>{{ ticket.category|capfirst }}</td>
-                                        <td>{{ ticket.status|capfirst }}</td>
+                                        <td>{{ ticket.get_status_display }}</td>
                                        
                                     </tr>
                                 {% endfor %}
