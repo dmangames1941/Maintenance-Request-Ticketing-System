@@ -97,27 +97,45 @@ def ticket_page(request, id):
     ticket = Ticket.objects.get(id=id)
     return render(request, 'ticket_page.html', {'ticket': ticket})
 
+
+# Jessy
+# @login_required(login_url="/")
+# def update_ticket(request):
+
+#     if request.method == 'POST':
+#         form = forms.UpdateTicket(request.POST, request.FILES)
+
+#         if form.is_valid():
+    
+#             ticket = form.save(commit=False) 
+#             ticket.submitter = request.user
+#             ticket.save()
+#             messages.success(request, 'Ticket has been made')
+
+#             # Send users name to tenant page
+#             context = {
+#                 'user': request.user,
+#                 'tickets': Ticket.objects.all()
+#             }
+
+#             return render(request, 'Admin_dashboard.html', context)
+
+#     else:
+#         form = forms.UpdateTicket()
+#     return render(request, 'update_ticket.html', {'form':form})
+
 @login_required(login_url="/")
-def update_ticket(request):
+def update_ticket(request, ticket_id):
+    ticket = Ticket.objects.get(id=ticket_id)
+
     if request.method == 'POST':
-        form = forms.UpdateTicket(request.POST, request.FILES)
+        form = forms.UpdateTicket(request.POST, request.FILES, instance=ticket)
 
         if form.is_valid():
-            # Don't save ticket to DB yet
-            ticket = form.save(commit=False) 
-            # Automatically fill in the field submitter for ticket
-            ticket.submitter = request.user
-            ticket.save()
-            messages.success(request, 'Ticket has been made')
-
-            # Send users name to tenant page
-            context = {
-                'user': request.user,
-                'tickets': Ticket.objects.all()
-            }
-
-            return render(request, 'Admin_dashboard.html', context)
-
+            form.save()
+            messages.success(request, 'Ticket has been updated')
+            return redirect('admin_dashboard')
     else:
-        form = forms.UpdateTicket()
-    return render(request, 'update_ticket.html', {'form':form})
+        form = forms.UpdateTicket(instance=ticket)
+
+    return render(request, 'update_ticket.html', {'form': form})

@@ -78,7 +78,11 @@
                                     <tr>
                                         <th scope="row"><input class="form-check-input me-1"  type="checkbox" name="my_checkboxes[]" value="{{ ticket.id }}" aria-label="checkbox"></th>
                                         <td>{{ ticket.assigned_admin|capfirst }}</td>
-                                        <td>{{ ticket.title|capfirst }}</td>
+                                        <td>
+                                            <a href="{% url 'update_ticket' ticket.id %}">
+                                                {{ ticket.title|capfirst }}
+                                            </a>
+                                        </td>
                                         <td>{{ ticket.submitter.userprofile.building_name|slice:3 }} {{ ticket.submitter.userprofile.apartment_number }}</td>
                                         <td>{{ ticket.priority|capfirst }}</td>
                                         <td>{{ ticket.created_date|date:"M d, Y" }}</td>

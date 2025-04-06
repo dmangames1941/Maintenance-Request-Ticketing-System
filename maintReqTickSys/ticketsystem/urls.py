@@ -9,5 +9,6 @@ urlpatterns = [
     path('admin-dashboard/', admin_dashboard, name='admin_dashboard'),
     path('ticket_create/', ticket_create, name='ticket_create'),
     path('<int:id>', ticket_page, name="page" ),
-    path('update_ticket/', update_ticket, name='update_ticket'),
+    # path('update_ticket/', update_ticket, name='update_ticket'),
+    path('update_ticket/<int:ticket_id>/', update_ticket, name='update_ticket'),
 ]
