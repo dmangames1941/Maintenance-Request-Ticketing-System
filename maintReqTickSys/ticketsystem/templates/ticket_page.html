@@ -9,6 +9,71 @@
     {% bootstrap_css %}
     {% bootstrap_javascript %}
     <link rel="stylesheet" href="{% static 'style.css' %}">
+    <style>
+        .divider {
+            border-bottom: 1px solid #ccc;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+            background-color: rgba(0, 0, 0, 0.05);
+            margin: 3px;
+            margin-bottom: 25px;
+            padding: 10px;
+        }
+        .left-column {
+            border-right: 2px solid #ccc;
+            padding-right: 20px;
+            padding-left: 20px;
+        }
+        .right-column {
+            padding-right: 20px;
+            padding-left: 20px;
+        }
+        .updates-content-box {
+            border: 1px solid rgba(0, 0, 0, 0.3);
+            margin-left: 5px;
+            min-height: 200px;
+            width: 275px;
+            overflow-y: auto; 
+        }
+        .updates-title-box {
+            background-color: rgba(0, 0, 0, 0.05);
+            margin-top: 10px;
+            margin-left: 10px;
+            height: 30px;
+            width: 250px;
+            display: flex;
+            align-items: center;
+        }
+        .updates-button {
+            background-color: rgba(0, 0, 0, 0.15);
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            border: rgba(0, 0, 0, 0.5);
+        }
+        .progress-circle {
+            width: 170px;
+            height: 170px;
+            border-radius: 50%;
+            background: conic-gradient(
+                {% if ticket.status == "submitted" %}
+                    #17a2b8 0% 33%, #f9f9f9 33% 100%
+                {% elif ticket.status == "in progress" %}
+                    #ffc107 0% 66%, #f9f9f9 66% 100%
+                {% elif ticket.status == "complete" %}
+                    #28a745 0% 100%, #f9f9f9 100% 100%
+                {% endif %}
+            );
+            display: flex;
+            align-items: center;
+            justify-items: center;
+            margin-top: 20px;
+            color: #333;
+        }
+        .col-progress {
+            justify-items: right;
+        }
+    </style>
 </head>
 <body>
 
@@ -19,9 +84,7 @@
                 <img src="../../media/logo_light.png" class="img-fluid" alt="Property Maintenance">
             </div>
             <div class="col-lg my-auto">
-
-                <h1>Request Ticket {{ ticket.title }}</h1>
-
+                <h1><b>Ticket Request # </b><br>{{ ticket.title|title }}</h1> <!--Do we want to add the unique ticket ID?-->
             </div>
             <div class="col-sm-3 my-auto text-center" >
                     <a class="btn btn-danger" href="{% url 'tenant_dashboard' %}" role="button">Back</a>
@@ -30,44 +93,59 @@
         <div class="row">
             <div class=col>
                 <a href="{% url 'tenant_dashboard' %}">My Dashboard</a> /
-                <a href ="">{{ticket.title}}</a>
+                <a href ="">{{ticket.title|title}}</a>
             </div>
         </div>
     </div>
 
+    <!--Ticket Header-->
     <div class="container">
-        <div class="row">
-            <h3>{{ ticket.title }}</h3>
-        </div>
-        <div class="row">
-            <h5>{{ ticket.submitter|capfirst }}</h5>
-        </div>
-        <div class="row">
-            <h5>{{ ticket.created_date }}</h5>
-        </div>
-        <div class="row">
-            
-            <div class="col">
-                <h6>Description</h6>
-                <p>{{ticket.description}}<p>
+        <div class="row divider">
+            <div class="col-md-9">
+                <h3><b>{{ ticket.title|title }}</b></h3>
+                <h4>{{ ticket.submitter.userprofile.building_name }} {{ ticket.submitter.userprofile.apartment_number }}</h4>
+                <h5>{{ ticket.submitter|capfirst }}</h5>
+                <h5>{{ ticket.created_date }}</h5>
             </div>
-            <div class="col">
-                <h6>Status: {{ ticket.status }}</h6>
-                <div class="">
-                    <div class = "row">
-                        <p>Updates:</p>
+            <!--<div class="col-md-3 align-self-center update-button">
+                <button class="updates-button" onclick="updateStatus()">Update Status</button>
+            </div> -->
+        </div>
+        
+        <div class="row">
+            <!--Ticket Description (Left Side)-->
+            <div class="col-md-4 left-column">
+                <h4><b>Description</b></h4>
+                <div class="description-body">
+                    <p>{{ ticket.description }}</p>
+                </div>
+            </div>
+
+            <!--Ticket Status & Updates (Right Side)-->
+            <div class="col-md-8 right-column">
+                <div class="d-flex align-items-center">
+                    <h4><b>Status: </b>{{ ticket.status|title }}</h4>
+                </div><br>
+                <div class="row">
+                    <div class="col">
+                        <div class="row updates-content-box">
+                            <div class="updates-title-box">
+                                <h6>Updates</h6>
+                            </div>
+                            <!--To add admin comments-->
+                        </div>
                     </div>
-                    <div class="row">
-                        COMMENTS
+                    <div class="col col-progress">
+                        <div class="progress-circle">
+                            {% if ticket.status == "submitted" %}
+                            {% elif ticket.status == "in progress" %}
+                            {% elif ticket.status == "complete" %}
+                            {% endif %}
+                        </div>
                     </div>
                 </div>
-            <div class="col">
-                Graph
-            </div>
-                
             </div>
         </div>
-    </div>
     </div>
 </body>
 </html>
