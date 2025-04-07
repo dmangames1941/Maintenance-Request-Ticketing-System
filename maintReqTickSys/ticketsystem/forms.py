@@ -19,7 +19,7 @@ CATEGORY_CHOICES = [
 
 class CreateTicket(forms.ModelForm):
     class Meta:
-        model_ticket = models.Ticket
+        model = models.Ticket
         fields = ['title', 'category', 'description', 'image']
         labels = {
             'title': 'Issue Title',
