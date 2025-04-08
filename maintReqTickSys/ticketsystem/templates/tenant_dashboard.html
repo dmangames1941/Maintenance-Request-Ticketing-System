@@ -5,6 +5,7 @@
     {% load bootstrap5 %}
     {% bootstrap_css %}
     {% bootstrap_javascript %}
+    {% load crispy_forms_tags %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tenant User Dashboard</title>
@@ -18,6 +19,11 @@
             transition:box-shadow 0.5s, border-color;
         }
     </style>
+    <script>
+        $('#myModal').on('shown.bs.modal', function () {
+        $('#myInput').trigger('focus')
+    })
+    </script>
 </head>
 <body>
     <!-- Header of Dashboard -->
@@ -25,23 +31,51 @@
 
         <div class="row">
             <div class="col-sm-2 align-self-center mx-auto d-flex justify-content-center" >
-                <img src="../../media/logo_light.png" class="img-fluid" alt="Property Maintenance">
+                <img src="../../media/logo_light.png" class="img-fluid" style="max-width: 100px;" alt="Property Maintenance">
             </div>
             <div class="col-lg my-auto">
 
                 <!-- If the user is logged in then show their name. Else, display static text -->
                 {% if user.is_authenticated %}
-                <h1 class="my-auto">Hello, {{ user.username|capfirst }}!</h1>
+                <h1 class="my-auto dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Hello, {{ user.username|capfirst }}!</h1>
                 {% else %}
-                    <p>Hello, Guest!</p>
+                    <p class="my-auto dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Hello, Guest!</p>
                 {% endif %}
-
+                <ul class="dropdown-menu text-small shadow">
+                    <li><a class="dropdown-item" href="{% url 'logout' %}">Sign out</a></li>
+                </ul>
             </div>
+    
             <div class="col-sm-3 my-auto text-center" >
-                    <a class="btn btn-primary" href="{% url 'ticket_create' %}" role="button">New Request</a>
+                    <!-- Button trigger modal -->
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModalLong">
+                    New Request
+                </button>
             </div>
         </div>
     </div>
+
+    <!-- Modal -->
+    <div class="modal fade bd-example-modal-lg" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">New Maintenance Request</h5>
+            <button type="button" class="close btn-danger rounded" data-bs-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">X</span>
+            </button>
+            </div>
+            
+            <form method="POST" action="" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="modal-body">
+                    {% crispy form %}
+                </div>
+            </form>
+        </div>
+        </div>
+    </div>
+
 
     <!-- Open Request Tickets Shown -->
     <div class="container my-2">
@@ -92,7 +126,7 @@
                     ⬅️
                 </div>
 
-                <div class="col-md  overflow-hidden position-relative " style="overflow-x: auto;"">
+                <div class="col-md  overflow-hidden position-relative " style="overflow-x: auto;">
                     <div class="d-flex flex-row gap-3 overflow-auto mx-auto" style="min-height:200px;" >
                         {% for ticket in tickets %}
                             {% if ticket.submitter == user and ticket.status == "completed" %}
@@ -124,6 +158,7 @@
     <div>
         <a href="{% url 'logout' %}">TEMPORARY LOGOUT BUTTON -- PLEASE FIX STYLE</a>
     </div>
-    
+
+
 </body>
 </html>
