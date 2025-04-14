@@ -135,7 +135,7 @@ def admin_ticket_page(request, id):
 
     context = {
         'ticket': ticket,
-        'comments': Comment.objects.all(),
+        'comments': Comment.objects.filter(ticket_id=id),
         'form_ticket': form_ticket,
         'form_comment': form_comment
     }
