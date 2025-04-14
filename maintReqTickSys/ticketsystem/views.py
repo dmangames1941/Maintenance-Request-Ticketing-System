@@ -97,7 +97,11 @@ def admin_my_maintenance(request):
 @login_required(login_url="/")
 def ticket_page(request, id):
     ticket = Ticket.objects.get(id=id)
-    return render(request, 'ticket_page.html', {'ticket': ticket})
+    context = {
+        'ticket': ticket,
+        'comments': Comment.objects.filter(ticket_id=id)
+    }
+    return render(request, 'ticket_page.html', context)
 
 @login_required(login_url="/")
 def update_ticket(request):
@@ -133,8 +137,7 @@ def admin_ticket_page(request, id):
         'ticket': ticket,
         'comments': Comment.objects.all(),
         'form_ticket': form_ticket,
-        'form_comment': form_comment,
-
+        'form_comment': form_comment
     }
     
     return render(request, 'admin_ticket_page.html', context)
