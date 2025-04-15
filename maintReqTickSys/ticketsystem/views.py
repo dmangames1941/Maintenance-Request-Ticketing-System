@@ -4,7 +4,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import messages
-from .models import Ticket, User, UserProfile
+from .models import Ticket, User, UserProfile, Comment
 from . import forms
 
 def home(request):
@@ -38,11 +38,25 @@ def user_logout(request):
 @login_required(login_url="/")
 def tenant_dashboard(request):
     # Send users name to tenant page
+    form = forms.CreateTicket()
+    if request.method == 'POST':
+        form = forms.CreateTicket(request.POST, request.FILES)
+        if form.is_valid():
+            # Don't save ticket to DB yet
+            ticket = form.save(commit=False) 
+            # Automatically fill in the field submitter for ticket
+            ticket.submitter = request.user
+            ticket.save()
+            messages.success(request, 'Ticket has been made')
+            return redirect('tenant_dashboard')  # Redirect to clear POST data
+
     context = {
         'user': request.user,
-        'tickets': Ticket.objects.all()
+        'tickets': Ticket.objects.all(),
+        'form': form,
     }
     return render(request, 'tenant_dashboard.html', context)
+
 
 @login_required(login_url="/")
 def admin_dashboard(request):
@@ -68,43 +82,18 @@ def admin_dashboard(request):
     return render(request, 'admin_dashboard.html', context)
 
 @login_required(login_url="/")
-def ticket_create(request):
-    if request.method == 'POST':
-        form = forms.CreateTicket(request.POST, request.FILES)
+def admin_my_maintenance(request):
+    userProfile = UserProfile.objects.get(user=request.user)
+    if userProfile.role == "tenant":
+        return redirect('tenant_dashboard')
+    
+    context = {
+        'user': request.user,
+        'tickets': Ticket.objects.all()
+    }
 
-        if form.is_valid():
-            # Don't save ticket to DB yet
-            ticket = form.save(commit=False) 
-            # Automatically fill in the field submitter for ticket
-            ticket.submitter = request.user
-            ticket.save()
-            messages.success(request, 'Ticket has been made')
+    return render(request, 'admin_my_maintenance.html', context)
 
-            # Send users name to tenant page
-            context = {
-                'user': request.user,
-                'tickets': Ticket.objects.all()
-            }
-
-            return render(request, 'Tenant_dashboard.html', context)
-
-    else:
-        form = forms.CreateTicket()
-    return render(request, 'ticket_create.html', {'form':form})
-
-@login_required(login_url="/")
-def update_ticket(request, id):
-    instance = get_object_or_404(Ticket, id=id)
-    if request.method == 'POST':
-        form = forms.CreateTicket(request.POST, instance=instance)
-        if form.is_valid():
-            form.save()
-            return redirect('ticket_create')
-    else:
-        form = forms.CreateTicket(instance=instance)
-    return render(request, 'update_ticket.html', {'form': form})
-
-   
 @login_required(login_url="/")
 def ticket_page(request, id):
     ticket = Ticket.objects.get(id=id)
@@ -113,3 +102,39 @@ def ticket_page(request, id):
 @login_required(login_url="/")
 def update_ticket(request):
     return render(request, 'update_ticket.html')
+
+@login_required(login_url="/")
+def admin_ticket_page(request, id):
+    ticket = Ticket.objects.get(id=id)
+    form_ticket = forms.UpdateTicket()
+    form_comment = forms.CreateComment()
+
+    if request.method == 'POST':
+        form_ticket = forms.UpdateTicket(request.POST, instance=ticket)
+        form_comment = forms.CreateComment(request.POST, request.FILES)
+
+        if form_ticket.is_valid() and form_comment.is_valid():
+            
+            comment = form_comment.save(commit=False)
+            comment.ticket = ticket
+            comment.user = request.user
+            comment.save()
+            form_ticket.save()
+            print(comment.content)
+
+            return redirect('admin_ticket_page', id=ticket.id)  # Go to ticket individual page
+        
+
+    else:
+        form_ticket = forms.UpdateTicket(instance=ticket)  # Sets default in form to current status
+        form_comment = forms.CreateComment()
+
+    context = {
+        'ticket': ticket,
+        'comments': Comment.objects.all(),
+        'form_ticket': form_ticket,
+        'form_comment': form_comment,
+
+    }
+    
+    return render(request, 'admin_ticket_page.html', context)
