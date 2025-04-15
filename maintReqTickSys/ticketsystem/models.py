@@ -81,13 +81,13 @@ class Ticket(models.Model):
 # -- Comment Model --
 class Comment(models.Model):
 
-    # add comment ID?
     ticket = models.ForeignKey('Ticket', on_delete=models.CASCADE, related_name='comments')
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='comments')
 
     # The comment
     content = models.TextField()
     created_date = models.DateTimeField(auto_now_add=True)
+    image = models.ImageField(upload_to='comment_images/', null=True, blank=True)
 
     def __str__(self):
         return f"Comment by {self.user.username} on {self.ticket.title} at {self.created_date}"
