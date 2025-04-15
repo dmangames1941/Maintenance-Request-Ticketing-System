@@ -97,6 +97,9 @@ def admin_my_maintenance(request):
 @login_required(login_url="/")
 def ticket_page(request, id):
     ticket = Ticket.objects.get(id=id)
+     # Added authentication to ensure that the user trying to access this page is the one who submitted the ticket
+    if ticket.submitter_id != request.user.id:
+        return redirect('tenant_dashboard')
     context = {
         'ticket': ticket,
         'comments': Comment.objects.filter(ticket_id=id)
