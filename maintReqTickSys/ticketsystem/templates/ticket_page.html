@@ -103,8 +103,7 @@
                 <h1><b>Ticket Request #{{ ticket.id }} </b><br>{{ ticket.title|title }}</h1> <!--Do we want to add the unique ticket ID?-->
             </div>
             <div class="col-sm-3 my-auto text-center" >
-                <a class="btn btn-danger" href="{% url 'tenant_dashboard' %}" role="button">&lt; Back</a>
-                <a class="btn btn-primary" href="{% url 'update_ticket' %}" role="button">Update</a>
+                <a class="btn btn-danger" href="{% url 'tenant_dashboard' %}" role="button">Back</a>
             </div>
         </div>
         <div class="row">

@@ -46,7 +46,7 @@
             <!-- Right section: User dropdown and button -->
             <div class="col-md-6 text-end pe-md-5">
                 {% if user.is_authenticated %}
-                <div class="dropdown mb-3">
+                <div class="dropdown my-3 px-4">
                     <a class="d-inline-flex align-items-center text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                         <img src="../../media/user_icon.png" alt="User Icon" width="32" height="32" class="rounded-circle me-2">
                         <strong>{{ user.username|capfirst }}</strong>
@@ -55,7 +55,14 @@
                         <li><a class="dropdown-item" href="{% url 'logout' %}">Sign out</a></li>
                     </ul>
                 </div>
+                <div class="m-4">
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModalLong">
+                        New Request
+                    </button>
+                </div>
                 {% endif %}
+
 
             </div>
         </div>
