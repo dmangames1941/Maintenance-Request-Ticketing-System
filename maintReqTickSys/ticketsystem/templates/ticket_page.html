@@ -58,7 +58,10 @@
                         <p>Updates:</p>
                     </div>
                     <div class="row">
-                        COMMENTS
+                        COMMENTS<br>
+                        {% for comment in comments %}
+                            <p>{{ comment.user }}: {{ comment.content }} {{ comment.created_date }}</p>
+                        {% endfor %}
                     </div>
                 </div>
             <div class="col">
