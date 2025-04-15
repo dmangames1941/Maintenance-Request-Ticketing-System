@@ -21,30 +21,42 @@
 </head>
 <body>
     <!-- Header of Dashboard -->
-    <div class="container">
-
-        <div class="row">
-            <div class="col-sm-2 align-self-center mx-auto d-flex justify-content-center" >
-                <img src="../../media/logo_light.png" class="img-fluid" alt="Property Maintenance">
+    <div class="container py-4">
+        <div class="row align-items-center justify-content-between">
+            <!-- Left section: Logo and Greeting -->
+            <div class="col-md-6 d-flex align-items-center ps-md-5">
+                <div class="me-4">
+                    <img src="../../media/logo_light.png" alt="Property Maintenance" style="height: 125px;">
+                </div>
+                <div>
+                    {% if user.is_authenticated %}
+                        <h1 class="mb-0" style="font-size: 3rem;">Hello, {{ user.username|capfirst }}!</h1>
+                    {% else %}
+                        <p class="mb-0" style="font-size: 2.5rem;">Hello, Guest!</p>
+                    {% endif %}
+                </div>
             </div>
-            <div class="col-lg my-auto">
-
-                <!-- If the user is logged in then show their name. Else, display static text -->
+    
+            <!-- Right section: User dropdown and button -->
+            <div class="col-md-6 text-end pe-md-5">
                 {% if user.is_authenticated %}
-                <h1 class="my-auto">Hello, {{ user.username|capfirst }}!</h1>
-                {% else %}
-                    <p>Hello, Guest!</p>
+                <div class="dropdown mb-3">
+                    <a class="d-inline-flex align-items-center text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="../../media/user_icon.png" alt="User Icon" width="32" height="32" class="rounded-circle me-2">
+                        <strong>{{ user.username|capfirst }}</strong>
+                    </a>
+                    <ul class="dropdown-menu text-small shadow dropdown-menu-end">
+                        <li><a class="dropdown-item" href="{% url 'logout' %}">Sign out</a></li>
+                    </ul>
+                </div>
                 {% endif %}
-
-            </div>
-            <div class="col-sm-3 my-auto text-center" >
-                    <a class="btn btn-primary" href="{% url 'ticket_create' %}" role="button">New Request</a>
+                <a class="btn btn-primary" href="{% url 'ticket_create' %}" role="button">New Request</a>
             </div>
         </div>
     </div>
-
+    
     <!-- Open Request Tickets Shown -->
-    <div class="container my-2">
+    <div class="container">
             <h2>Open Requests</h2>
 
             <div class="flex-row d-flex p-4 " style="background-color: #E5E4E2">
@@ -120,19 +132,7 @@
                 </div>
             </div>
     </div>
-    
-    <div>
-        <hr>
-        <div class="dropdown" style="margin-left: 20px;">
-            <a class="d-flex align-items-center link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                <img src="../../media/user_icon.png" alt="" width="32" height="32" class="rounded-circle me-2">
-                <strong>{{ user.username|capfirst }}</strong>
-            </a>
-            <ul class="dropdown-menu text-small shadow">
-                <li><a class="dropdown-item" href="{% url 'logout' %}">Sign out</a></li>
-            </ul>
-    </div>
-    <div style="height: 20px; margin-left: 10px;"></div> 
+
     
 </body>
 </html>
