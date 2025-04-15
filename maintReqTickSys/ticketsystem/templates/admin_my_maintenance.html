@@ -246,7 +246,7 @@
                                                             <td>{{ ticket.submitter.userprofile.building_name|slice:3 }} {{ ticket.submitter.userprofile.apartment_number }}</td>
                                                             <td class="text-center">{{ ticket.priority|slice:3 |capfirst  }}</td>
                                                             <td class="text-center">{{ ticket.category|slice:3 |capfirst }}</td>
-                                                            <td>{{ ticket.status|capfirst }}</td>
+                                                            <td>{{ ticket.get_status_display }}</td>
                                                         </tr>
                                                     {% endif %}
                                                 {% endfor %}
@@ -277,7 +277,7 @@
                                                             <td>{{ ticket.submitter.userprofile.building_name|slice:3 }} {{ ticket.submitter.userprofile.apartment_number }}</td>
                                                             <td class="text-center">{{ ticket.priority|slice:3 |capfirst  }}</td>
                                                             <td class="text-center">{{ ticket.category|slice:3 |capfirst }}</td>
-                                                            <td>{{ ticket.status|capfirst }}</td>
+                                                            <td>{{ ticket.get_status_display }}</td>
                                                         </tr>
                                                     {% endif %}
                                                 {% endfor %}
@@ -308,7 +308,7 @@
                                                             <td>{{ ticket.submitter.userprofile.building_name|slice:3 }} {{ ticket.submitter.userprofile.apartment_number }}</td>
                                                             <td class="text-center">{{ ticket.priority|slice:3 |capfirst  }}</td>
                                                             <td class="text-center">{{ ticket.category|slice:3 |capfirst }}</td>
-                                                            <td>{{ ticket.status|capfirst }}</td>
+                                                            <td>{{ ticket.get_status_display }}</td>
                                                         </tr>
                                                     {% endif %}
                                                 {% endfor %}
@@ -338,7 +338,7 @@
                                                             <td>{{ ticket.submitter.userprofile.building_name|slice:3 }} {{ ticket.submitter.userprofile.apartment_number }}</td>
                                                             <td class="text-center">{{ ticket.priority|slice:3 |capfirst  }}</td>
                                                             <td class="text-center">{{ ticket.category|slice:3 |capfirst }}</td>
-                                                            <td>{{ ticket.status|capfirst }}</td>
+                                                            <td>{{ ticket.get_status_display }}</td>
                                                         </tr>
                                                     {% endif %}
                                                 {% endfor %}
