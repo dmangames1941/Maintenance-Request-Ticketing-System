@@ -45,7 +45,7 @@
 
     <!-- Open Request Tickets Shown -->
     <div class="container my-2">
-            <h2>Open Request</h2>
+            <h2>Open Requests</h2>
 
             <div class="flex-row d-flex p-4 " style="background-color: #E5E4E2">
                 <div class="col-1 align-self-center mx-auto d-flex justify-content-center">
@@ -85,7 +85,7 @@
     
     <!-- Closed Request Tickets Shown -->
     <div class="container my-5">
-            <h2>Closed Request</h2>
+            <h2>Closed Requests</h2>
 
             <div class="flex-row d-flex p-4 " style="background-color: #E5E4E2">
                 <div class="col-1 align-self-center mx-auto d-flex justify-content-center">
@@ -122,8 +122,17 @@
     </div>
     
     <div>
-        <a href="{% url 'logout' %}">TEMPORARY LOGOUT BUTTON -- PLEASE FIX STYLE</a>
+        <hr>
+        <div class="dropdown" style="margin-left: 20px;">
+            <a class="d-flex align-items-center link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                <img src="../../media/user_icon.png" alt="" width="32" height="32" class="rounded-circle me-2">
+                <strong>{{ user.username|capfirst }}</strong>
+            </a>
+            <ul class="dropdown-menu text-small shadow">
+                <li><a class="dropdown-item" href="{% url 'logout' %}">Sign out</a></li>
+            </ul>
     </div>
+    <div style="height: 20px; margin-left: 10px;"></div> 
     
 </body>
 </html>

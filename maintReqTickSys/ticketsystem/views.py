@@ -1,6 +1,6 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
+from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import messages
@@ -91,6 +91,19 @@ def ticket_create(request):
     else:
         form = forms.CreateTicket()
     return render(request, 'ticket_create.html', {'form':form})
+
+@login_required(login_url="/")
+def update_ticket(request, id):
+    instance = get_object_or_404(Ticket, id=id)
+    if request.method == 'POST':
+        form = forms.CreateTicket(request.POST, instance=instance)
+        if form.is_valid():
+            form.save()
+            return redirect('ticket_create')
+    else:
+        form = forms.CreateTicket(instance=instance)
+    return render(request, 'update_ticket.html', {'form': form})
+
    
 @login_required(login_url="/")
 def ticket_page(request, id):

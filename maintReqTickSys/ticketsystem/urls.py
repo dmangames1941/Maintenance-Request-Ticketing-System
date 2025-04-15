@@ -10,4 +10,5 @@ urlpatterns = [
     path('ticket_create/', ticket_create, name='ticket_create'),
     path('<int:id>', ticket_page, name="page" ),
     path('update_ticket/', update_ticket, name='update_ticket'),
+    path('update/<int:id>/', update_ticket, name='update_ticket'),
 ]
