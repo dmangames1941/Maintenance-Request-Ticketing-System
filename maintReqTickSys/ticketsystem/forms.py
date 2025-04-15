@@ -72,12 +72,14 @@ class UpdateTicket(forms.ModelForm):
 class CreateComment(forms.ModelForm):
     class Meta:
         model = models.Comment
-        fields = ['content']
+        fields = ['content', 'image']
         labels = {
             'content': 'Please add a description:',
+            'image' : 'Upload a Photo (Optional)'
         }
         widgets = {
             'content': forms.Textarea(attrs={'rows': 3, 'placeholder': 'Add your update...'}),
+            'image': forms.ClearableFileInput(attrs={'class': 'form-control'}),
         }
 
     def __init__(self, *args, **kwargs):
@@ -87,4 +89,5 @@ class CreateComment(forms.ModelForm):
         self.helper.form_class = "mt-5"
         self.helper.layout = Layout(
             'content',
+            'image',
         )

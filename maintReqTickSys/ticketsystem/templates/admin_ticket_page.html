@@ -59,9 +59,7 @@
                 {% csrf_token %}
                 <div class="modal-body">
                     {{ form_ticket.as_p }}
-                    {{ form_comment.content.label_tag }}
-                    {{ form_comment.content }}
-                    {{ form_comment.content.errors }}
+                    {{ form_comment|crispy }}
                     <div class="d-flex justify-content-end">
                         <button type="submit" class="btn btn-primary ">Submit</button>
                     </div>
