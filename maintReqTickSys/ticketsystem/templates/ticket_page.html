@@ -151,6 +151,7 @@
                             <!--To add admin comments-->
                         </div>
                     </div>
+
                     <div class="col col-progress">
                         <div class="progress-circle">                          
                             <span>
@@ -163,6 +164,13 @@
                                 {% endif %}
                             </span>
                         </div>
+
+                    <div class="row">
+                        COMMENTS<br>
+                        {% for comment in comments %}
+                            <p>{{ comment.user }}: {{ comment.content }} {{ comment.created_date }}</p>
+                        {% endfor %}
+
                     </div>
                 </div>
             </div>
