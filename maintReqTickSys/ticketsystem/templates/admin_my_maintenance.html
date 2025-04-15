@@ -5,6 +5,7 @@
     <title>Admin My Maintenance</title>
     {% load bootstrap5 %} {% bootstrap_css %} {% bootstrap_javascript %}
     <link rel="stylesheet" href="{% static 'cards.css' %}">
+    <link rel="stylesheet" href="{% static 'priority.css' %}">
 </head>
 <body>
     <div class="container-fluid">
@@ -244,7 +245,12 @@
                                                         <tr style="cursor: pointer;" onclick="window.location.href='{% url 'admin_ticket_page' id=ticket.id %}'">
                                                             <th>{{ ticket.title|capfirst }}</th>
                                                             <td>{{ ticket.submitter.userprofile.building_name|slice:3 }} {{ ticket.submitter.userprofile.apartment_number }}</td>
-                                                            <td class="text-center">{{ ticket.priority|slice:3 |capfirst  }}</td>
+                                                            <!-- <td class="text-center">{{ ticket.priority|slice:3 |capfirst  }}</td> -->
+                                                            <td>
+                                                                <span class="priority-box {% if ticket.priority == 'low' %}priority-low{% elif ticket.priority == 'medium' %}priority-medium{% elif ticket.priority == 'high' %}priority-high{% endif %}">
+                                                                    {{ ticket.priority|capfirst }}
+                                                                </span>
+                                                            </td>
                                                             <td class="text-center">{{ ticket.category|slice:3 |capfirst }}</td>
                                                             <td>{{ ticket.get_status_display }}</td>
                                                         </tr>
@@ -275,7 +281,12 @@
                                                         <tr style="cursor: pointer;" onclick="window.location.href='{% url 'admin_ticket_page' id=ticket.id %}'">
                                                             <th>{{ ticket.title|capfirst }}</th>
                                                             <td>{{ ticket.submitter.userprofile.building_name|slice:3 }} {{ ticket.submitter.userprofile.apartment_number }}</td>
-                                                            <td class="text-center">{{ ticket.priority|slice:3 |capfirst  }}</td>
+                                                            <!-- <td class="text-center">{{ ticket.priority|slice:3 |capfirst  }}</td> -->
+                                                            <td>
+                                                                <span class="priority-box {% if ticket.priority == 'low' %}priority-low{% elif ticket.priority == 'medium' %}priority-medium{% elif ticket.priority == 'high' %}priority-high{% endif %}">
+                                                                    {{ ticket.priority|capfirst }}
+                                                                </span>
+                                                            </td>
                                                             <td class="text-center">{{ ticket.category|slice:3 |capfirst }}</td>
                                                             <td>{{ ticket.get_status_display }}</td>
                                                         </tr>
@@ -306,7 +317,12 @@
                                                         <tr style="cursor: pointer;" onclick="window.location.href='{% url 'admin_ticket_page' id=ticket.id %}'">
                                                             <th>{{ ticket.title|capfirst }}</th>
                                                             <td>{{ ticket.submitter.userprofile.building_name|slice:3 }} {{ ticket.submitter.userprofile.apartment_number }}</td>
-                                                            <td class="text-center">{{ ticket.priority|slice:3 |capfirst  }}</td>
+                                                            <!-- <td class="text-center">{{ ticket.priority|slice:3 |capfirst  }}</td> -->
+                                                            <td>
+                                                                <span class="priority-box {% if ticket.priority == 'low' %}priority-low{% elif ticket.priority == 'medium' %}priority-medium{% elif ticket.priority == 'high' %}priority-high{% endif %}">
+                                                                    {{ ticket.priority|capfirst }}
+                                                                </span>
+                                                            </td>
                                                             <td class="text-center">{{ ticket.category|slice:3 |capfirst }}</td>
                                                             <td>{{ ticket.get_status_display }}</td>
                                                         </tr>
@@ -336,7 +352,12 @@
                                                         <tr style="cursor: pointer;" onclick="window.location.href='{% url 'admin_ticket_page' id=ticket.id %}'">
                                                             <th>{{ ticket.title|capfirst }}</th>
                                                             <td>{{ ticket.submitter.userprofile.building_name|slice:3 }} {{ ticket.submitter.userprofile.apartment_number }}</td>
-                                                            <td class="text-center">{{ ticket.priority|slice:3 |capfirst  }}</td>
+                                                            <!-- <td class="text-center">{{ ticket.priority|slice:3 |capfirst  }}</td> -->
+                                                            <td>
+                                                                <span class="priority-box {% if ticket.priority == 'low' %}priority-low{% elif ticket.priority == 'medium' %}priority-medium{% elif ticket.priority == 'high' %}priority-high{% endif %}">
+                                                                    {{ ticket.priority|capfirst }}
+                                                                </span>
+                                                            </td>
                                                             <td class="text-center">{{ ticket.category|slice:3 |capfirst }}</td>
                                                             <td>{{ ticket.get_status_display }}</td>
                                                         </tr>

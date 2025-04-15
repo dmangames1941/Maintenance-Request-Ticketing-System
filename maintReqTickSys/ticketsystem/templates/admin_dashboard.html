@@ -6,6 +6,7 @@
     {% load bootstrap5 %}
     {% bootstrap_css %}
     {% bootstrap_javascript %}
+    <link rel="stylesheet" href="{% static 'priority.css' %}">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
@@ -88,7 +89,7 @@
                                         <thead>
                                         <tr>
                                             <th scope="col"></th>
-                                            <th scope="col">Asignee</th>
+                                            <th scope="col">Assignee</th>
                                             <th scope="col">Title</th>
                                             <th scope="col">Apt</th>
                                             <th scope="col">Priority</th>
@@ -104,7 +105,11 @@
                                                     <td>{{ ticket.assigned_admin|capfirst }}</td>
                                                     <td>{{ ticket.title|capfirst }}</td>
                                                     <td>{{ ticket.submitter.userprofile.building_name|slice:3 }} {{ ticket.submitter.userprofile.apartment_number }}</td>
-                                                    <td>{{ ticket.priority|capfirst }}</td>
+                                                    <td>
+                                                        <span class="priority-box {% if ticket.priority == 'low' %}priority-low{% elif ticket.priority == 'medium' %}priority-medium{% elif ticket.priority == 'high' %}priority-high{% endif %}">
+                                                            {{ ticket.priority|capfirst }}
+                                                        </span>
+                                                    </td>
                                                     <td>{{ ticket.created_date|date:"M d, Y" }}</td>
                                                     <td>{{ ticket.category|capfirst }}</td>
                                                     <td>{{ ticket.get_status_display }}</td>
@@ -131,7 +136,7 @@
                                         <thead>
                                         <tr>
                                             <th scope="col"></th>
-                                            <th scope="col">Asignee</th>
+                                            <th scope="col">Assignee</th>
                                             <th scope="col">Title</th>
                                             <th scope="col">Apt</th>
                                             <th scope="col">Priority</th>
@@ -148,7 +153,11 @@
                                                     <td>{{ ticket.assigned_admin|capfirst }}</td>
                                                     <td>{{ ticket.title|capfirst }}</td>
                                                     <td>{{ ticket.submitter.userprofile.building_name|slice:3 }} {{ ticket.submitter.userprofile.apartment_number }}</td>
-                                                    <td>{{ ticket.priority|capfirst }}</td>
+                                                    <td>
+                                                        <span class="priority-box {% if ticket.priority == 'low' %}priority-low{% elif ticket.priority == 'medium' %}priority-medium{% elif ticket.priority == 'high' %}priority-high{% endif %}">
+                                                            {{ ticket.priority|capfirst }}
+                                                        </span>
+                                                    </td>
                                                     <td>{{ ticket.created_date|date:"M d, Y" }}</td>
                                                     <td>{{ ticket.category|capfirst }}</td>
                                                     <td>{{ ticket.status|capfirst }}</td>
@@ -192,7 +201,11 @@
                                                     <td>{{ ticket.assigned_admin|capfirst }}</td>
                                                     <td>{{ ticket.title|capfirst }}</td>
                                                     <td>{{ ticket.submitter.userprofile.building_name|slice:3 }} {{ ticket.submitter.userprofile.apartment_number }}</td>
-                                                    <td>{{ ticket.priority|capfirst }}</td>
+                                                    <td>
+                                                        <span class="priority-box {% if ticket.priority == 'low' %}priority-low{% elif ticket.priority == 'medium' %}priority-medium{% elif ticket.priority == 'high' %}priority-high{% endif %}">
+                                                            {{ ticket.priority|capfirst }}
+                                                        </span>
+                                                    </td>
                                                     <td>{{ ticket.created_date|date:"M d, Y" }}</td>
                                                     <td>{{ ticket.category|capfirst }}</td>
                                                     <td>{{ ticket.status|capfirst }}</td>
@@ -236,7 +249,11 @@
                                                     <td>{{ ticket.assigned_admin|capfirst }}</td>
                                                     <td>{{ ticket.title|capfirst }}</td>
                                                     <td>{{ ticket.submitter.userprofile.building_name|slice:3 }} {{ ticket.submitter.userprofile.apartment_number }}</td>
-                                                    <td>{{ ticket.priority|capfirst }}</td>
+                                                    <td>
+                                                        <span class="priority-box {% if ticket.priority == 'low' %}priority-low{% elif ticket.priority == 'medium' %}priority-medium{% elif ticket.priority == 'high' %}priority-high{% endif %}">
+                                                            {{ ticket.priority|capfirst }}
+                                                        </span>
+                                                    </td>
                                                     <td>{{ ticket.created_date|date:"M d, Y" }}</td>
                                                     <td>{{ ticket.category|capfirst }}</td>
                                                     <td>{{ ticket.status|capfirst }}</td>
