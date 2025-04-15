@@ -8,9 +8,24 @@ from .models import Ticket, User, UserProfile, Comment
 from . import forms
 
 def home(request):
+    # If user has already authenticated and their session hasnt expired, automatically redirect to their dashboard
+    if request.user.is_authenticated:
+        userProfile = UserProfile.objects.get(user=request.user)
+        if userProfile.role == "admin":
+            return redirect('admin_dashboard')
+        else:
+            return redirect('tenant_dashboard')
     return render(request, 'home.html')
 
 def user_login(request):
+    # If user has already authenticated and their session hasnt expired, automatically redirect to their dashboard
+    if request.user.is_authenticated:
+        userProfile = UserProfile.objects.get(user=request.user)
+        if userProfile.role == "admin":
+            return redirect('admin_dashboard')
+        else:
+            return redirect('tenant_dashboard')
+
     # If Post validate entry and go to dashboard
     if request.method == 'POST':
         form = AuthenticationForm(request, data=request.POST)
@@ -97,7 +112,14 @@ def admin_my_maintenance(request):
 @login_required(login_url="/")
 def ticket_page(request, id):
     ticket = Ticket.objects.get(id=id)
-    return render(request, 'ticket_page.html', {'ticket': ticket})
+    # Added authentication to ensure that the user trying to access this page is the one who submitted the ticket
+    if ticket.submitter_id != request.user.id:
+        return redirect('tenant_dashboard')
+    context = {
+        'ticket': ticket,
+        'comments': Comment.objects.filter(ticket_id=id)
+    }
+    return render(request, 'ticket_page.html', context)
 
 @login_required(login_url="/")
 def update_ticket(request):
@@ -133,8 +155,7 @@ def admin_ticket_page(request, id):
         'ticket': ticket,
         'comments': Comment.objects.all(),
         'form_ticket': form_ticket,
-        'form_comment': form_comment,
-
+        'form_comment': form_comment
     }
     
     return render(request, 'admin_ticket_page.html', context)
