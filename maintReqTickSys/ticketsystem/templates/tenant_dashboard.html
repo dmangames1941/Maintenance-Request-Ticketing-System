@@ -5,6 +5,7 @@
     {% load bootstrap5 %}
     {% bootstrap_css %}
     {% bootstrap_javascript %}
+    {% load crispy_forms_tags %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tenant User Dashboard</title>
@@ -18,34 +19,80 @@
             transition:box-shadow 0.5s, border-color;
         }
     </style>
+    <script>
+        $('#myModal').on('shown.bs.modal', function () {
+        $('#myInput').trigger('focus')
+    })
+    </script>
 </head>
 <body>
     <!-- Header of Dashboard -->
-    <div class="container">
-
-        <div class="row">
-            <div class="col-sm-2 align-self-center mx-auto d-flex justify-content-center" >
-                <img src="../../media/logo_light.png" class="img-fluid" style="" alt="Property Maintenance">
+    <div class="container py-4">
+        <div class="row align-items-center justify-content-between">
+            <!-- Left section: Logo and Greeting -->
+            <div class="col-md-6 d-flex align-items-center ps-md-5">
+                <div class="me-4">
+                    <img src="../../media/logo_light.png" alt="Property Maintenance" style="height: 125px;">
+                </div>
+                <div>
+                    {% if user.is_authenticated %}
+                        <h1 class="mb-0" style="font-size: 3rem;">Hello, {{ user.username|capfirst }}!</h1>
+                    {% else %}
+                        <p class="mb-0" style="font-size: 2.5rem;">Hello, Guest!</p>
+                    {% endif %}
+                </div>
             </div>
-            <div class="col-lg my-auto">
-
-                <!-- If the user is logged in then show their name. Else, display static text -->
+    
+            <!-- Right section: User dropdown and button -->
+            <div class="col-md-6 text-end pe-md-5">
                 {% if user.is_authenticated %}
-                <h1 class="my-auto">Hello, {{ user.username|capfirst }}!</h1>
-                {% else %}
-                    <p>Hello, Guest!</p>
+                <div class="dropdown my-3 px-4">
+                    <a class="d-inline-flex align-items-center text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="../../media/user_icon.png" alt="User Icon" width="32" height="32" class="rounded-circle me-2">
+                        <strong>{{ user.username|capfirst }}</strong>
+                    </a>
+                    <ul class="dropdown-menu text-small shadow dropdown-menu-end">
+                        <li><a class="dropdown-item" href="{% url 'logout' %}">Sign out</a></li>
+                    </ul>
+                </div>
+                <div class="m-4">
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModalLong">
+                        New Request
+                    </button>
+                </div>
                 {% endif %}
 
-            </div>
-            <div class="col-sm-3 my-auto text-center" >
-                    <a class="btn btn-primary" href={% url 'ticket_create' %} role="button">New Request</a>
+
             </div>
         </div>
     </div>
 
+    <!-- Modal -->
+    <div class="modal fade bd-example-modal-lg" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">New Maintenance Request</h5>
+            <button type="button" class="close btn-danger rounded" data-bs-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">X</span>
+            </button>
+            </div>
+            
+            <form method="POST" action="" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="modal-body">
+                    {% crispy form %}
+                </div>
+            </form>
+        </div>
+        </div>
+    </div>
+
+    
     <!-- Open Request Tickets Shown -->
-    <div class="container my-2">
-            <h2>Open Request</h2>
+    <div class="container">
+            <h2>Open Requests</h2>
 
             <div class="flex-row d-flex p-4 " style="background-color: #E5E4E2">
                 <div class="col-1 align-self-center mx-auto d-flex justify-content-center">
@@ -64,10 +111,10 @@
                                         <img class="card-img-top" style="max-height:150px; object-fit: cover;" src="../../media/logo_light.png" />
                                     {% endif %}
                                     <div class="card-body">
-                                    <h5 class="card-title overflow-hidden" style="height: 24px;">{{ ticket.title }}</h5>
+                                    <h5 class="card-title overflow-hidden" style="height: 24px;">{{ ticket.title|title }}</h5>
                                     <h6 class="card-subtitle mb-2 text-muted">{{ ticket.status|capfirst }}</h6>
-                                    <p class="card-text overflow-hidden" style="height: 80px;">{{ ticket.description }}</p>
-                                    <a href="" class="card-link stretched-link">Card link</a>
+                                    <p class="card-text overflow-hidden" style="height: 80px;">{{ ticket.description|capfirst }}</p>
+                                    <a href="{% url 'page' id=ticket.id %}" class="card-link stretched-link">Card link</a>
                                     </div>
                                 </div>
                             {% endif %}
@@ -85,14 +132,14 @@
     
     <!-- Closed Request Tickets Shown -->
     <div class="container my-5">
-            <h2>Closed Request</h2>
+            <h2>Closed Requests</h2>
 
             <div class="flex-row d-flex p-4 " style="background-color: #E5E4E2">
                 <div class="col-1 align-self-center mx-auto d-flex justify-content-center">
                     ⬅️
                 </div>
 
-                <div class="col-md  overflow-hidden position-relative " style="overflow-x: auto;"">
+                <div class="col-md  overflow-hidden position-relative " style="overflow-x: auto;">
                     <div class="d-flex flex-row gap-3 overflow-auto mx-auto" style="min-height:200px;" >
                         {% for ticket in tickets %}
                             {% if ticket.submitter == user and ticket.status == "completed" %}

@@ -1,0 +1,19 @@
+.priority-box {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-weight: bold;
+    color: #000;
+}
+
+.priority-low {
+    background-color: #ffff66;
+}
+
+.priority-medium {
+    background-color: #ffcc66;
+}
+
+.priority-high {
+    background-color: #ff6666;
+}

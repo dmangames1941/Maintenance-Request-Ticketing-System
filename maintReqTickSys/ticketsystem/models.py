@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import User
 from django.conf import settings
 
 # Create your models here.
@@ -7,11 +7,16 @@ from django.conf import settings
 # -- User model --
 
 # Django's built in User Model already stores username, email, password, first_name, and last_name
-class User(AbstractUser):
+# This model, UserProfile, is an extension of the inbuilt user model and has extra info
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    
     ROLE_CHOICES = [
         ('tenant', 'Tenant'),
         ('admin', 'Admin'),
     ]
+
     # admin or tenant?
     role = models.CharField(max_length=10, choices=ROLE_CHOICES, default='tenant')
 
@@ -22,17 +27,10 @@ class User(AbstractUser):
     # Employee ID for ADMINS ONLY (optional field)
     employee_id = models.CharField(max_length=100, blank=True, null=True)
 
-
-    #------- added due to SystemCheckError -----------
-    groups = models.ManyToManyField('auth.Group', related_name='user_groups', blank=True)
-    user_permissions = models.ManyToManyField('auth.Permission', related_name='user_permissions', blank=True)
-    #-------------------------------------------------
-
-    # Add word "Building"
     def __str__(self):
         if self.role == "tenant":
-            return f"{self.username} - Apt {self.apartment_number or 'N/A'}, {self.building_name or ''}"
-        return f"{self.username} (Admin)"
+            return f"{self.user.username} - Apt {self.apartment_number or 'N/A'}, {self.building_name or ''}"
+        return f"{self.user.username} (Admin)"
 
 
 # -- Ticket Model --
@@ -83,13 +81,13 @@ class Ticket(models.Model):
 # -- Comment Model --
 class Comment(models.Model):
 
-    # add comment ID?
     ticket = models.ForeignKey('Ticket', on_delete=models.CASCADE, related_name='comments')
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='comments')
 
     # The comment
     content = models.TextField()
     created_date = models.DateTimeField(auto_now_add=True)
+    image = models.ImageField(upload_to='comment_images/', null=True, blank=True)
 
     def __str__(self):
         return f"Comment by {self.user.username} on {self.ticket.title} at {self.created_date}"
