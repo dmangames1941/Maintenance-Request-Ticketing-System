@@ -95,12 +95,9 @@
             <h2>Open Requests</h2>
 
             <div class="flex-row d-flex p-4 " style="background-color: #E5E4E2">
-                <div class="col-1 align-self-center mx-auto d-flex justify-content-center">
-                    ⬅️
-                </div>
 
                 <!-- Scrollable container for tickets -->
-                <div class="col-md overflow-hidden position-relative " style="overflow-x: auto;">
+                <div id="open-request-container" class="col-md overflow-hidden position-relative " style="overflow-x: auto;">
                     <div class="d-flex flex-row gap-3 mx-auto" style="min-height:200px; overflow-x: auto;" >
                         {% for ticket in tickets %}
                             {% if ticket.submitter == user and ticket.status != "completed" %}
@@ -123,9 +120,6 @@
                     </div>
                 </div>
 
-                <div class="col-1 align-self-center d-flex justify-content-center">
-                    ➡️
-                </div>
             </div>
     </div>
 
@@ -134,10 +128,7 @@
     <div class="container my-5">
             <h2>Closed Requests</h2>
 
-            <div class="flex-row d-flex p-4 " style="background-color: #E5E4E2">
-                <div class="col-1 align-self-center mx-auto d-flex justify-content-center">
-                    ⬅️
-                </div>
+            <div id="closed-request-container" class="flex-row d-flex p-4 " style="background-color: #E5E4E2">
 
                 <div class="col-md  overflow-hidden position-relative " style="overflow-x: auto;">
                     <div class="d-flex flex-row gap-3 overflow-auto mx-auto" style="min-height:200px;" >
@@ -162,11 +153,7 @@
                     </div>
                 </div>
 
-                <div class="col-1 align-self-center d-flex justify-content-center">
-                    ➡️
-                </div>
             </div>
     </div>
-    
 </body>
 </html>
