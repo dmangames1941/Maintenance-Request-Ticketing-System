@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 from django.conf.urls.static import static
 from pathlib import Path
 import os # added to allow upload of pictures - see MEDIA_URL below
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -146,3 +147,31 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 X_FRAME_OPTIONS = 'SAMEORIGIN'
+######
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = config('EMAIL_HOST')
+EMAIL_PORT = config('EMAIL_PORT', cast=int)
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+EMAIL_USE_TLS = config('EMAIL_USE_TLS', cast=bool)
+DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL')
+
+
+# ------------------ Mailtrap SSL Fix ------------------ #
+import ssl
+import smtplib
+from django.core.mail.backends.smtp import EmailBackend
+
+class MailtrapBackend(EmailBackend):
+    def open(self):
+        self.connection = smtplib.SMTP(self.host, self.port)
+        self.connection.ehlo()
+        self.connection.starttls(context=ssl._create_unverified_context())  # 👈 This bypasses cert verification
+        self.connection.ehlo()
+        self.connection.login(self.username, self.password)
+        return True
+
+EMAIL_BACKEND = 'maintReqTickSys.settings.MailtrapBackend'
+# ------------------------------------------------------ #
