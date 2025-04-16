@@ -6,6 +6,7 @@ Django==4.2.20
 django-bootstrap-v5==1.0.11
 django-crispy-forms==2.3
 pillow==11.1.0
+python-decouple==3.8
 soupsieve==2.6
 sqlparse==0.5.3
 typing_extensions==4.12.2
