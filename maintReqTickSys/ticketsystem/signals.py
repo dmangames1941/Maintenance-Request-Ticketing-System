@@ -57,9 +57,15 @@ def notify_tenant_on_update(sender, instance, **kwargs):
     # Status changed
     if prev.status != instance.status:
         print(f"📧 Ticket Status Changed → notifying tenant: {instance.submitter.email}")
+        # Reformats the status change to display prettily on the email.
+        ticket_status = "In Progress"
+        if instance.status == "submitted":
+            ticket_status = "Submitted"
+        elif instance.status == "completed":
+            ticket_status = "Completed"
         send_html_email(
             subject=f"Ticket Status Updated: {instance.title}",
             to_email=instance.submitter.email,
             template='emails/status_updated.html',
-            context={'ticket': instance}
+            context={'ticket': instance, 'ticket_status': ticket_status}
         )
