@@ -31,11 +31,8 @@ def user_login(request):
         form = AuthenticationForm(request, data=request.POST)
         if form.is_valid():
             user = form.get_user() # Returns current users information
-            print(user.username)
             userProfile = UserProfile.objects.get(user=user)
             login(request, user)
-            print("-----------------------------------------")
-            print(userProfile)
             if userProfile.role == "admin":
                 return redirect('admin_dashboard')
             else:
