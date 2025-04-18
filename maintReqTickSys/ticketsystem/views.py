@@ -139,7 +139,6 @@ def admin_ticket_page(request, id):
             comment.user = request.user
             comment.save()
             form_ticket.save()
-            print(comment.content)
 
             return redirect('admin_ticket_page', id=ticket.id)  # Go to ticket individual page
         
