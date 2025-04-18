@@ -17,7 +17,12 @@
           <tr>
             <td style="padding: 30px;">
               <p>Your ticket <strong>{{ ticket.title }}</strong> has been updated to <strong>{{ ticket_status }}</strong>.</p>
-              <p>You can view this change in your dashboard or by clicking below.</p>
+              <p>The new comment attached was: {{ comment.content }}</p>
+              {% if hasImage %}
+                <p><strong>An image was attached.</strong></p>
+                <img src="{{ comment.image }}">
+              {% endif %}
+              <p>You can also view this change in your dashboard or by clicking below.</p>
               <div style="text-align: center; margin-top: 20px;">
                 <a href="http://127.0.0.1:8000/{{ ticket.id }}" style="background: #ffc107; color: #000; padding: 12px 20px; border-radius: 5px; text-decoration: none;">👁️ View Status</a>
               </div>

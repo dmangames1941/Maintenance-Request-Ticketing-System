@@ -2,7 +2,7 @@ from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
 from django.conf import settings
 from django.contrib.auth.models import User
-from .models import Ticket
+from .models import Ticket, Comment
 from ticketsystem.utils.email import send_html_email
 
 print("📢 signals.py loaded")
@@ -57,6 +57,12 @@ def notify_tenant_on_update(sender, instance, **kwargs):
     # Status changed
     if prev.status != instance.status:
         print(f"📧 Ticket Status Changed → notifying tenant: {instance.submitter.email}")
+        # Retrieve the most recent comment (attached to the current ticket)
+        comment = Comment.objects.filter(ticket_id=instance.id).last()
+        # Checks if the comment has an image attached or not
+        hasImage = False
+        if comment.image:
+            hasImage = True
         # Reformats the status change to display prettily on the email.
         ticket_status = "In Progress"
         if instance.status == "submitted":
@@ -67,5 +73,5 @@ def notify_tenant_on_update(sender, instance, **kwargs):
             subject=f"Ticket Status Updated: {instance.title}",
             to_email=instance.submitter.email,
             template='emails/status_updated.html',
-            context={'ticket': instance, 'ticket_status': ticket_status}
+            context={'ticket': instance, 'ticket_status': ticket_status, 'comment': comment, 'hasImage': hasImage}
         )
