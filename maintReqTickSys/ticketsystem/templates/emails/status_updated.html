@@ -16,7 +16,7 @@
           </tr>
           <tr>
             <td style="padding: 30px;">
-              <p>Your ticket <strong>{{ ticket.title }}</strong> has been updated to <strong>{{ ticket_status }}</strong>.</p>
+              <p>Your ticket <strong>({{ ticket.title }})</strong>'s status is currently: <strong>{{ ticket_status }}</strong>.</p>
               <p><strong>New Comment:</strong> {{ comment_text }}</p>
               {% if hasImage %}
                 <p><strong>An image was attached. Open your dashboard to view it.</strong></p>

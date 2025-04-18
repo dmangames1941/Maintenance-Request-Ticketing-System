@@ -53,25 +53,25 @@ def notify_tenant_on_update(sender, instance, **kwargs):
             template='emails/ticket_assigned.html',
             context={'ticket': instance}
         )
+        return # An admin being assigned is a different email than status/comment update
 
-    # Status changed
-    if prev.status != instance.status:
-        print(f"📧 Ticket Status Changed → notifying tenant: {instance.submitter.email}")
-        # Retrieve the most recent comment (attached to the current ticket)
-        comment = Comment.objects.filter(ticket_id=instance.id).last()
-        # Checks if the comment has an image attached or not
-        hasImage = False
-        if comment.image:
-            hasImage = True
-        # Reformats the status change to display prettily on the email.
-        ticket_status = "In Progress"
-        if instance.status == "submitted":
-            ticket_status = "Submitted"
-        elif instance.status == "completed":
-            ticket_status = "Completed"
-        send_html_email(
-            subject=f"Ticket Status Updated: {instance.title}",
-            to_email=instance.submitter.email,
-            template='emails/status_updated.html',
-            context={'ticket': instance, 'ticket_status': ticket_status, 'comment_text': comment.content, 'hasImage': hasImage}
-        )
+    # Comment Added to Ticket (Also reflects any status changes)
+    comment = Comment.objects.filter(ticket_id=instance.id).last()
+    # if prev.status != instance.status:
+    print(f"📧 Ticket Status Changed/Comment added → notifying tenant: {instance.submitter.email}")
+    # Checks if the comment has an image attached or not
+    hasImage = False
+    if comment.image:
+        hasImage = True
+    # Reformats the status change to display prettily on the email.
+    ticket_status = "In Progress"
+    if instance.status == "submitted":
+        ticket_status = "Submitted"
+    elif instance.status == "completed":
+        ticket_status = "Completed"
+    send_html_email(
+        subject=f"Ticket Status Updated: {instance.title}",
+        to_email=instance.submitter.email,
+        template='emails/status_updated.html',
+        context={'ticket': instance, 'ticket_status': ticket_status, 'comment_text': comment.content, 'hasImage': hasImage}
+    )
