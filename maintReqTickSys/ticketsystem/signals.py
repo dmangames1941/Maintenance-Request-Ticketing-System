@@ -73,5 +73,5 @@ def notify_tenant_on_update(sender, instance, **kwargs):
             subject=f"Ticket Status Updated: {instance.title}",
             to_email=instance.submitter.email,
             template='emails/status_updated.html',
-            context={'ticket': instance, 'ticket_status': ticket_status, 'comment': comment, 'hasImage': hasImage}
+            context={'ticket': instance, 'ticket_status': ticket_status, 'comment_text': comment.content, 'hasImage': hasImage}
         )
