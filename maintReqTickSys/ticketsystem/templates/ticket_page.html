@@ -168,8 +168,14 @@
                     <div class="row">
                         COMMENTS<br>
                         {% for comment in comments %}
-                            <p>{{ comment.user }}: {{ comment.content }} {{ comment.created_date }}</p>
-                        {% endfor %}
+                                <p>
+                                    <strong>{{ comment.user }}</strong>: {{ comment.content }} <br>
+                                    <small>{{ comment.created_date }}</small><br>
+                                    {% if comment.image %}
+                                        <a href="{{ comment.image.url }}" target="_blank">View Image</a>
+                                    {% endif %}
+                                </p>
+                             {% endfor %}
 
                     </div>
                 </div>
