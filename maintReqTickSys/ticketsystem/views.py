@@ -6,6 +6,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import messages
 from .models import Ticket, User, UserProfile, Comment
 from . import forms
+from django.db.models import Count
 
 def home(request):
     # If user has already authenticated and their session hasnt expired, automatically redirect to their dashboard
@@ -99,9 +100,20 @@ def admin_my_maintenance(request):
     if userProfile.role == "tenant":
         return redirect('tenant_dashboard')
     
+    # context = {
+    #     'user': request.user,
+    #     'tickets': Ticket.objects.all()
+    # }
+
+    tickets = Ticket.objects.filter(assigned_admin=request.user)
+
     context = {
         'user': request.user,
-        'tickets': Ticket.objects.all()
+        'tickets': tickets,
+        'count_all': tickets.count(),
+        'count_open': tickets.filter(status='open').count(),
+        'count_in_progress': tickets.filter(status='in_progress').count(),
+        'count_completed': tickets.filter(status='completed').count(),
     }
 
     return render(request, 'admin_my_maintenance.html', context)
