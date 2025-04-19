@@ -59,9 +59,9 @@
             background: conic-gradient(
                 {% if ticket.status == "submitted" %}
                     #17a2b8 0% 33%, #f9f9f9 33% 100%
-                {% elif ticket.status == "in progress" %}
+                {% elif ticket.status == "in_progress" %}
                     #ffc107 0% 66%, #f9f9f9 66% 100%
-                {% elif ticket.status == "complete" %}
+                {% elif ticket.status == "completed" %}
                     #28a745 0% 100%, #f9f9f9 100% 100%
                 {% endif %}
             );
@@ -157,9 +157,9 @@
                             <span>
                                 {% if ticket.status == "submitted" %}
                                     33%
-                                {% elif ticket.status == "in progress" %}
+                                {% elif ticket.status == "in_progress" %}
                                     66%
-                                {% elif ticket.status == "complete" %}
+                                {% elif ticket.status == "completed" %}
                                     100%
                                 {% endif %}
                             </span>
