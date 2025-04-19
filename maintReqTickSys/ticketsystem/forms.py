@@ -53,12 +53,14 @@ class CreateTicket(forms.ModelForm):
 class UpdateTicket(forms.ModelForm):
     class Meta:
         model = models.Ticket
-        fields = ['status']
+        fields = ['status', 'priority']
         labels = {
             'status': 'Status:',
+            'priority': 'Priority:',
         }
         widgets = {
             'status': forms.Select(),
+            'priority': forms.Select(),
         }
 
     def __init__(self, *args, **kwargs):
@@ -67,6 +69,7 @@ class UpdateTicket(forms.ModelForm):
         self.helper.form_class = "mt-5"
         self.helper.layout = Layout(
             'status',
+            'priority',
         )
 
 class CreateComment(forms.ModelForm):
