@@ -10,46 +10,142 @@
     {% bootstrap_javascript %}
     {% load crispy_forms_tags %}
     <link rel="stylesheet" href="{% static 'style.css' %}">
+    <style>
+        .divider {
+            border-bottom: 1px solid #ccc;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+            background-color: rgba(0, 0, 0, 0.05);
+            margin: 3px;
+            margin-bottom: 25px;
+            padding: 8px;
+        }
+        .left-column {
+            border-right: 2px solid #ccc;
+            padding-right: 20px;
+            padding-left: 20px;
+        }
+        .left-column {
+            border-right: 2px solid #ccc;
+            padding-right: 20px;
+            padding-left: 20px;
+        }
+        .right-column {
+            padding-right: 20px;
+            padding-left: 20px;
+        }
+        .updates-content-box {
+            border: 1px solid rgba(0, 0, 0, 0.3);
+            margin-left: 5px;
+            min-height: 200px;
+            width: 720px;
+            overflow-y: auto; 
+        }
+        .updates-title-box {
+            background-color: rgba(0, 0, 0, 0.05);
+            margin-top: 10px;
+            margin-left: 10px;
+            height: 40px;
+            width: 695px;
+            display: flex;
+            align-items: center;
+        }
+        .progress-circle {
+            position: relative;
+            width: 165px;
+            height: 165px;
+            border-radius: 50%;
+            background: conic-gradient(
+                {% if ticket.status == "submitted" %}
+                    #17a2b8 0% 33%, #f9f9f9 33% 100%
+                {% elif ticket.status == "in_progress" %}
+                    #ffc107 0% 66%, #f9f9f9 66% 100%
+                {% elif ticket.status == "completed" %}
+                    #28a745 0% 100%, #f9f9f9 100% 100%
+                {% endif %}
+            );
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 20px;
+            margin-left: 20px;
+            color: #333;
+        }
+        .progress-circle::before {
+            content: '';
+            position: absolute;
+            width: 115px;
+            height: 115px;
+            border-radius: 50%;
+            background-color: #fff;
+         }
+        .progress-circle span {
+            position: absolute;
+            font-size: 35px;
+            font-weight: bold;
+        }
+        .col-progress {
+            justify-content: right;
+        }
+
+    </style>
 </head>
 <body>
-<h1>Admin Ticket Page</h1>
     <div class="container">
-
+        <!--Logo & Ticket Header-->
         <div class="row">
-            <div class="col-sm-2 align-self-center mx-auto d-flex justify-content-center" >
+            <div class="col-3 align-self-center mx-auto d-flex justify-content-center" >
                 <img src="../../media/logo_light.png" class="img-fluid" alt="Property Maintenance">
             </div>
-            <div class="col-lg my-auto">
-
-                <h1>Request Ticket {{ ticket.title }}</h1>
-
+            <div class="col-6 my-auto text-center">
+                <h1><b>Ticket Request #{{ ticket.id }} </b><br>{{ ticket.title|title }}</h1>
             </div>
-            <div class="col-sm-3 my-auto text-center" >
-                    <a class="btn btn-danger" href="{% url 'admin_dashboard' %}" role="button">Back</a>
-            </div>
-        </div>
-        <div class="row">
-            <div class=col>
-                <a href="{% url 'admin_dashboard' %}">Admin Dashboard</a> /
-                <a href ="">{{ticket.title}}</a>
-            </div>
-
             <!--Add Comment Button-->
-            <div class="col-sm-3 my-auto text-center" >
-                <!-- Button trigger modal -->
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModalLong">
-                    Update Status
-                </button>
+            <div class="col align-top text-end pt-3 pe-5">
+                <div class="pb-5">
+                    <a class="btn btn-danger" href="{% url 'admin_dashboard' %}" role="button">Back</a>
+                </div>
             </div>
+
+        <div class="row ps-4">
+            <div class="col-7 text-start align-self-center">
+                <a href="{% url 'admin_dashboard' %}">My Dashboard</a> /
+                <a href ="">{{ticket.title|title}}</a>
+            </div>
+            <div class="col-5 pe-2 text-end">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModalLong">
+                  Update Ticket Status
+                </button>
+              </div>              
+        </div>
         </div>
     </div>
+
+    </div>
+    <!--Ticket Header-->
+    <div class="container">
+        <div class="row divider">
+            <div class="col-md-5 left-column pt-1">
+                <h4><b>{{ ticket.title|title }}</b></h4>
+                <h5>{{ ticket.submitter.userprofile.building_name }} {{ ticket.submitter.userprofile.apartment_number }}</h5>
+                <h6>{{ ticket.submitter|capfirst }}</h6>
+                <h6>{{ ticket.created_date }}</h6>
+            </div>
+            <div class="col">
+                <div class="col-lg-12 ps-3 pt-1">
+                    <h4><b>Description</b></h4>
+                    <div class="description-body">
+                        <p>{{ ticket.description }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
 
     <!-- Modal -->
     <div class="modal fade bd-example-modal-lg" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLongTitle">Update Status Form</h5>
+            <h5 class="modal-title" id="exampleModalLongTitle">Ticket Status Update Form</h5>
             <button type="button" class="close btn-danger rounded" data-bs-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">X</span>
             </button>
@@ -70,50 +166,66 @@
         </div>
     </div>
 
-    <div class="container">
-        <div class="row">
-            <h3>{{ ticket.title }}</h3>
-        </div>
-        <div class="row">
-            <h5>{{ ticket.submitter|capfirst }}</h5>
-        </div>
-        <div class="row">
-            <h5>{{ ticket.created_date }}</h5>
-        </div>
-        <div class="row">
-            
-            <div class="col">
-                <h6>Description</h6>
-                <p>{{ticket.description}}<p>
+    <div class="row">
+        <!--Ticket Status & Updates (Left Side)-->
+        <div class="col-5 left-column pt-3 ps-5">
+            <div class="d-flex align-items-center">
+                <h5><b>Status: </b>{{ ticket.status|title }}</h5>
             </div>
+            <!--Progress Circle-->
+            <div class="col col-progress">
+                <div class="progress-circle">                          
+                    <span>
+                        {% if ticket.status == "submitted" %}
+                            33%
+                        {% elif ticket.status == "in_progress" %}
+                            66%
+                        {% elif ticket.status == "completed" %}
+                            100%
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+        </div>
+        <!--Images (Right Side)-->
+        <div class="col">
+            {% if ticket.uploaded_image %}
+            <img src="{{ ticket.image.url }}" alt="Ticket Image" style="max-width: 300px;">
+            {% else %}
+            <p>No image uploaded.</p>
+            {% endif %}
+        </div>
+
+        <!--Bottom of Page: Admin Updates/Comments-->
+        <div class="row pt-5 ps-4">
             <div class="col">
-                <h6>Status: {{ ticket.status }}</h6>
-                <div class="">
-                    <div class = "row">
-                        <p>Updates:</p>
-                    </div>
-                    <div class="row">
-                        <h1>Comments:</h1>
-                        <div>
-                            {% for comment in comments %}
-                                <p>
-                                    <strong>{{ comment.user }}</strong>: {{ comment.content }} <br>
-                                    <small>{{ comment.created_date }}</small><br>
-                                    {% if comment.image %}
-                                        <a href="{{ comment.image.url }}" target="_blank">View Image</a>
-                                    {% endif %}
-                                </p>
-                             {% endfor %}
+                <div class="updates-content-box">
+                    <div class="updates-title-box">
+                        <div class="row">
+                            <div class="text-center ps-4 fs-5">
+                                <a><b>Ticket Updates</b></a>
+                            </div>
+                            
                         </div>
                     </div>
+                    <div class="row p-3">
+                        {% if comments %}
+                                {% for comment in comments %}
+                                <p>
+                                    <strong>{{ comment.user }}</strong> at <strong> <small>{{ comment.created_date }} <br>
+                                        &#187;</strong> {{ comment.content }}</small>
+                                {% if comment.image %}
+                                    <br><a href="{{ comment.image.url }}" target="_blank">View Image</a>
+                                {% endif %}
+                                </p>
+                                 {% endfor %}
+                            {% else %}
+                            <p class="text-secondary"><i>No updates have been made to this ticket. <br> Please submit an update using the "Update Ticket Status" button above.</i></p>
+                            {% endif %}
+                    </div>
+                    </div>
                 </div>
-            <div class="col">
-                Graph
-            </div>
-                
-            </div>
-        </div>
     </div>
-    </div>
+</div>
 </body>
 </html>

@@ -121,18 +121,29 @@ def admin_my_maintenance(request):
 @login_required(login_url="/")
 def ticket_page(request, id):
     ticket = Ticket.objects.get(id=id)
+    form_ticket = forms.TenantUpdateTicket(instance=ticket)
+
     # Added authentication to ensure that the user trying to access this page is the one who submitted the ticket
     if ticket.submitter_id != request.user.id:
         return redirect('tenant_dashboard')
+    
+
+    #handling form submission 
+    if request.method == 'POST':
+        form_ticket = forms.TenantUpdateTicket(request.POST, request.FILES, instance=ticket)
+        if form_ticket.is_valid():
+            form_ticket.save()
+            return redirect(f'/{id}', id=ticket.id)
+        else:
+            form_ticket = forms.TenantUpdateTicket(instance=ticket)
+
     context = {
         'ticket': ticket,
+        'form_ticket': form_ticket,
         'comments': Comment.objects.filter(ticket_id=id)
     }
     return render(request, 'ticket_page.html', context)
 
-@login_required(login_url="/")
-def update_ticket(request):
-    return render(request, 'update_ticket.html')
 
 @login_required(login_url="/")
 def admin_ticket_page(request, id):

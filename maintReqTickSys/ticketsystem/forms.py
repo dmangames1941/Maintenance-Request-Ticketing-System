@@ -1,15 +1,9 @@
 from django import forms
 from . import models
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Submit, Row, Column
+from crispy_forms.layout import Layout, Submit
 from crispy_forms.layout import Div
 
-# class CreateTicket(forms.ModelForm):
-#     class Meta:
-#         model = models.Ticket
-#         fields = [
-#             'title', 'category', 'description', 'image',
-#         ]
 
 CATEGORY_CHOICES = [
         ('electrical', 'Electrical'),
@@ -70,6 +64,32 @@ class UpdateTicket(forms.ModelForm):
         self.helper.layout = Layout(
             'status',
             'priority',
+        )
+
+
+class TenantUpdateTicket(forms.ModelForm):
+    class Meta:
+        model = models.Ticket
+        fields = ['category', 'description', 'image']
+        labels = {
+            'category': 'Category',
+            'description': 'Description',
+            'image': 'Upload Image (optional)',
+        }
+        widgets = {
+            'category': forms.Select(attrs={'class': 'form-select'}),
+            'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
+            'image': forms.ClearableFileInput(attrs={'class': 'form-control'})
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_class = "mt-5"
+        self.helper.layout = Layout(
+            'category',
+            'description',
+            'image'
         )
 
 class CreateComment(forms.ModelForm):

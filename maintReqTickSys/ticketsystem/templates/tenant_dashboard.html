@@ -108,7 +108,7 @@
                                         <img class="card-img-top" style="max-height:150px; object-fit: cover;" src="../../media/logo_light.png" />
                                     {% endif %}
                                     <div class="card-body">
-                                    <h5 class="card-title overflow-hidden" style="height: 24px;">{{ ticket.title|title }}</h5>
+                                    <p class="card-title overflow-hidden fs-5" style="height: 30px;">{{ ticket.title|title }}</p>
                                     <h6 class="card-subtitle mb-2 text-muted">{{ ticket.status|capfirst }}</h6>
                                     <p class="card-text overflow-hidden" style="height: 80px;">{{ ticket.description|capfirst }}</p>
                                     <a href="{% url 'page' id=ticket.id %}" class="card-link stretched-link">Card link</a>
@@ -122,7 +122,6 @@
 
             </div>
     </div>
-
     
     <!-- Closed Request Tickets Shown -->
     <div class="container my-5">
