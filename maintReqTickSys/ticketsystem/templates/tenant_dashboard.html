@@ -82,7 +82,13 @@
             <form method="POST" action="" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="modal-body">
-                    {% crispy form %}
+                    {{ form_ticket.as_p }}
+                    {{ form_comment.content.label_tag }}
+                    {{ form_comment.content }}
+                    {{ form_comment.content.errors }}
+                    <div class="d-flex justify-content-end">
+                        <button type="submit" class="btn btn-primary ">Submit</button>
+                    </div>
                 </div>
             </form>
         </div>
@@ -111,7 +117,7 @@
                                         <img class="card-img-top" style="max-height:150px; object-fit: cover;" src="../../media/logo_light.png" />
                                     {% endif %}
                                     <div class="card-body">
-                                    <h5 class="card-title overflow-hidden" style="height: 24px;">{{ ticket.title|title }}</h5>
+                                    <p class="card-title overflow-hidden fs-5" style="height: 30px;">{{ ticket.title|title }}</p>
                                     <h6 class="card-subtitle mb-2 text-muted">{{ ticket.status|capfirst }}</h6>
                                     <p class="card-text overflow-hidden" style="height: 80px;">{{ ticket.description|capfirst }}</p>
                                     <a href="{% url 'page' id=ticket.id %}" class="card-link stretched-link">Card link</a>
@@ -128,12 +134,10 @@
                 </div>
             </div>
     </div>
-
     
     <!-- Closed Request Tickets Shown -->
     <div class="container my-5">
             <h2>Closed Requests</h2>
-
             <div class="flex-row d-flex p-4 " style="background-color: #E5E4E2">
                 <div class="col-1 align-self-center mx-auto d-flex justify-content-center">
                     ⬅️

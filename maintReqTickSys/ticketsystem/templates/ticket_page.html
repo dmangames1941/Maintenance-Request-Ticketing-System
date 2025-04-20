@@ -107,11 +107,37 @@
                 <a href ="">{{ticket.title|title}}</a>
             </div>
             <div class="col-5 pe-2 text-end">
-                <a class="btn btn-primary" href="{% url 'update_ticket' %}" role="button">Update Ticket</a>
+                <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModalLong" role="button">Update Ticket</a>
             </div>
         </div>
         </div>
     </div>
+
+    <!--Modal-->
+    <div class="modal fade bd-example-modal-lg" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">Edit Maintenance Request</h5>
+            <button type="button" class="close btn-danger rounded" data-bs-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">X</span>
+            </button>
+            </div>
+    
+            <form method="POST" action="" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="modal-body">
+                    {{ form_ticket.as_p }}
+                    <div class="d-flex justify-content-end">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </div>
+            </form> 
+
+        </div>
+        </div>
+    </div>
+
 
     <!--Ticket Header-->
     <div class="container">
