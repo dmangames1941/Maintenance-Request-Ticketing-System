@@ -132,6 +132,8 @@ def ticket_page(request, id):
     if request.method == 'POST':
         form_ticket = forms.TenantUpdateTicket(request.POST, request.FILES, instance=ticket)
         if form_ticket.is_valid():
+            form_ticket.save(commit=False)
+            ticket._skip = True # Passes in the 'skip' flag to the instance so SMTP doesnt trigger
             form_ticket.save()
             return redirect(f'/{id}', id=ticket.id)
         else:

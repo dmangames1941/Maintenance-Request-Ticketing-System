@@ -41,6 +41,10 @@ def notify_admin_on_ticket_submission(sender, instance, created, **kwargs):
 def notify_tenant_on_update(sender, instance, **kwargs):
     if not instance.pk:
         return
+    
+    # Detects if a skip flag was passed in, if so, skips this signal
+    if getattr(instance, '_skip', False):
+        return
 
     prev = Ticket.objects.get(pk=instance.pk)
 
