@@ -181,10 +181,10 @@
             </div>
             <!--Images (Right Side)-->
             <div class="col">
-                {% if ticket.uploaded_image %}
-                <img src="{{ ticket.image.url }}" alt="Ticket Image" style="max-width: 300px;">
+                {% if ticket.image %}
+                    <img class="d-block mx-auto" src="{{ ticket.image.url }}" alt="Ticket Image" style="max-width: 300px;">
                 {% else %}
-                <p>No image uploaded.</p>
+                    <p>No image uploaded.</p>
                 {% endif %}
             </div>
 
