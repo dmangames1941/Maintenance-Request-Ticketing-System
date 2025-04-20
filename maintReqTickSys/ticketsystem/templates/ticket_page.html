@@ -204,7 +204,13 @@
                         <div class="row p-3">
                             {% if comments %}
                                 {% for comment in comments %}
-                                    <p><strong>{{ comment.user }}</strong> at <strong>{{ comment.created_date|localtime }} &#187;</strong> {{ comment.content }}</p>
+                                <p>
+                                    <strong>{{ comment.user }}</strong> at <strong> <small>{{ comment.created_date|localtime }} <br>
+                                        &#187;</strong> {{ comment.content }}</small>
+                                {% if comment.image %}
+                                    <br><a href="{{ comment.image.url }}" target="_blank">View Image</a>
+                                {% endif %}    
+                                </p>
                                 {% endfor %}
                             {% else %}
                                 <p class="text-secondary"><i>No updates have been made to your ticket yet.  <br>We are working to respond to your request as soon as possible.</i></p>
