@@ -74,7 +74,6 @@ class TenantUpdateTicket(forms.ModelForm):
             'image': 'Upload Image (optional)',
         }
         widgets = {
-            'title': forms.TextInput(attrs={'class': 'form-control'}),
             'category': forms.Select(attrs={'class': 'form-select'}),
             'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
             'image': forms.ClearableFileInput(attrs={'class': 'form-control'})
