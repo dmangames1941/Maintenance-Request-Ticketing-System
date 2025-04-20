@@ -69,13 +69,12 @@ class UpdateTicket(forms.ModelForm):
             'status',
         )
 
-'''
+
 class TenantUpdateTicket(forms.ModelForm):
     class Meta:
         model = models.Ticket
-        fields = ['title', 'category', 'description', 'image']
+        fields = ['category', 'description', 'image']
         labels = {
-            'title': 'Title',
             'category': 'Category',
             'description': 'Description',
             'image': 'Upload Image (optional)',
@@ -84,7 +83,7 @@ class TenantUpdateTicket(forms.ModelForm):
             'title': forms.TextInput(attrs={'class': 'form-control'}),
             'category': forms.Select(attrs={'class': 'form-select'}),
             'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
-            'image': forms.ClearableFileInput(attrs={'class': 'form-control'}),'description': forms.Textarea(attrs={'rows: 4'}),
+            'image': forms.ClearableFileInput(attrs={'class': 'form-control'})
         }
 
     def __init__(self, *args, **kwargs):
@@ -114,4 +113,3 @@ class CreateComment(forms.ModelForm):
         self.helper.layout = Layout(
             'content',
         )
-    '''

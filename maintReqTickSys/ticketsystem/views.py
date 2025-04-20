@@ -112,12 +112,13 @@ def admin_my_maintenance(request):
 @login_required(login_url="/")
 def ticket_page(request, id):
     ticket = Ticket.objects.get(id=id)
+    form_ticket = forms.TenantUpdateTicket()
 
     # Added authentication to ensure that the user trying to access this page is the one who submitted the ticket
     if ticket.submitter_id != request.user.id:
         return redirect('tenant_dashboard')
     
-    '''
+
     #handling form submission 
     if request.method == 'POST':
         form_ticket = forms.TenantUpdateTicket(request.POST, request.FILES, instance=ticket)
@@ -131,7 +132,7 @@ def ticket_page(request, id):
         'ticket': ticket,
         'form_ticket': form_ticket,
         'comments': Comment.objects.filter(ticket_id=id)
-    }'''
+    }
     return render(request, 'ticket_page.html', context)
 
 
