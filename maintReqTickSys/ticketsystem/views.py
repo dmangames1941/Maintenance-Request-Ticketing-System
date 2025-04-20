@@ -124,7 +124,7 @@ def ticket_page(request, id):
         form_ticket = forms.TenantUpdateTicket(request.POST, request.FILES, instance=ticket)
         if form_ticket.is_valid():
             form_ticket.save()
-            return redirect('ticket_page', id=ticket.id)
+            return redirect(f'/{id}', id=ticket.id)
         else:
             form_ticket = forms.TenantUpdateTicket(instance=ticket)
 

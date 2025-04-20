@@ -82,13 +82,10 @@
             <form method="POST" action="" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="modal-body">
-                    {{ form_ticket.as_p }}
-                    {{ form_comment.content.label_tag }}
-                    {{ form_comment.content }}
-                    {{ form_comment.content.errors }}
-                    <div class="d-flex justify-content-end">
+                    {% crispy form %}
+                    <!-- <div class="d-flex justify-content-end">
                         <button type="submit" class="btn btn-primary ">Submit</button>
-                    </div>
+                    </div> -->
                 </div>
             </form>
         </div>
