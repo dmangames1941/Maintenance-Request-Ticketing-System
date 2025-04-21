@@ -231,11 +231,9 @@ def admin_my_analytics(request):
 
     # Category-wise count
     by_category = list(tickets.values('category').annotate(count=Count('id')))
-    print("BY CATEGORY:", by_category)
 
     # Priority-wise count
     by_priority = list(tickets.values('priority').annotate(count=Count('id')))
-    print("BY PRIORITY:", by_priority)
 
     # Ticket trend for the last 7 days
     last_7_days = []
@@ -244,7 +242,6 @@ def admin_my_analytics(request):
         day = today - timedelta(days=i)
         count = tickets.filter(created_date__date=day).count()
         last_7_days.append({"date": day.strftime("%b %d"), "count": count})
-    print("LAST 7 DAYS:", last_7_days)
 
     context = {
         'user': user,
