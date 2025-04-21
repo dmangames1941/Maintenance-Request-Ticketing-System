@@ -10,6 +10,7 @@
 </head>
 <body>
     <div class="container mt-4">
+        <a href="{% url 'admin_my_maintenance' %}" class="btn btn-secondary mb-2">← Back to My Maintenance</a>
         <h2 class="mb-4">Analytics for {{ user.username|capfirst }}</h2>
 
         <div class="row mb-5">
@@ -29,7 +30,6 @@
             </div>
         </div>
 
-        <a href="{% url 'admin_my_maintenance' %}" class="btn btn-secondary">← Back to My Maintenance</a>
     </div>
 
     <script>

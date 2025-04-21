@@ -25,18 +25,26 @@
                     </div>
                     <hr>
                     <ul class="nav nav-pills flex-column mb-auto">
-                    <li class="nav-item mt-2 rounded">
-                        <a href="{% url 'admin_dashboard' %}" class="nav-link list-group-item list-group-item-action active" aria-current="page">
-                        <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#home"></use></svg>
-                        All Maintenance
-                        </a>
-                    </li>
-                    <li class="nav-item mt-2 t-2 rounded">
-                        <a href="{% url 'admin_my_maintenance' %}" class="nav-link list-group-item list-group-item-action link-body-emphasis">
-                        <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#speedometer2"></use></svg>
-                        My Maintenance
-                        </a>
-                    </li>
+                        <li class="nav-item mt-2 rounded">
+                            <a href="{% url 'admin_dashboard' %}" class="nav-link list-group-item list-group-item-action active" aria-current="page">
+                                <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#home"></use></svg>
+                                All Maintenance
+                            </a>
+                        </li>
+                        <li class="nav-item mt-2 t-2 rounded">
+                            <a href="{% url 'admin_my_maintenance' %}" class="nav-link list-group-item list-group-item-action link-body-emphasis">
+                                <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#speedometer2"></use></svg>
+                                My Maintenance
+                            </a>
+                        </li>
+                        <li class="nav-item mt-2 t-2 rounded">
+                            <a href="{% url 'admin_my_analytics' %}" class="nav-link list-group-item list-group-item-action link-body-emphasis">
+                                <svg class="bi pe-none me-2" width="16" height="16">
+                                    <use xlink:href="#bar-chart"></use>
+                                </svg>
+                                My Analytics
+                            </a>
+                        </li>
                     </ul>
                     <hr>
                     <div class="dropdown">

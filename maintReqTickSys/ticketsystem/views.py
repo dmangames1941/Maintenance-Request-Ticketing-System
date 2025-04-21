@@ -219,7 +219,7 @@ def admin_ticket_page(request, id):
     return render(request, 'admin_ticket_page.html', context)
 
 
-@login_required
+@login_required(login_url="/")
 def admin_my_analytics(request):
     user = request.user
     user_profile = UserProfile.objects.get(user=user)
