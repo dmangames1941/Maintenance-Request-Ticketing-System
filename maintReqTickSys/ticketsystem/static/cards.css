@@ -9,3 +9,7 @@ a.active .cards {
 .card-title {
     color:black;
 }
+canvas {
+    max-width: 100% !important;
+    height: auto !important;
+}

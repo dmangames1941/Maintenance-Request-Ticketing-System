@@ -1,0 +1,107 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Maintenance Analytics</title>
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container mt-4">
+        <h2 class="mb-4">Analytics for {{ user.username|capfirst }}</h2>
+
+        <div class="row mb-5">
+            <div class="col-md-6 d-flex justify-content-center align-items-center">
+                <div style="width: 100%; max-width: 400px;">
+                    <canvas id="categoryChart"></canvas>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <canvas id="priorityChart"></canvas>
+            </div>
+        </div>
+
+        <div class="row mb-5">
+            <div class="col-md-12">
+                <canvas id="trendChart"></canvas>
+            </div>
+        </div>
+
+        <a href="{% url 'admin_my_maintenance' %}" class="btn btn-secondary">← Back to My Maintenance</a>
+    </div>
+
+    <script>
+        const categoryData = {{ by_category|safe }};
+        const priorityData = {{ by_priority|safe }};
+        const trendData = {{ last_7_days|safe }};
+
+        const categoryLabels = categoryData.map(obj => obj.category.charAt(0).toUpperCase() + obj.category.slice(1));
+        const categoryCounts = categoryData.map(obj => obj.count);
+
+        const priorityLabels = priorityData.map(obj => obj.priority.charAt(0).toUpperCase() + obj.priority.slice(1));
+        const priorityCounts = priorityData.map(obj => obj.count);
+
+        const trendLabels = trendData.map(obj => obj.date);
+        const trendCounts = trendData.map(obj => obj.count);
+
+        new Chart(document.getElementById('categoryChart'), {
+            type: 'pie',
+            data: {
+                labels: categoryLabels,
+                datasets: [{
+                    label: 'Ticket Categories',
+                    data: categoryCounts,
+                    backgroundColor: ['#36A2EB', '#FFCE56', '#FF6384'],
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                    }
+                }
+            }
+        });
+
+        new Chart(document.getElementById('priorityChart'), {
+            type: 'bar',
+            data: {
+                labels: priorityLabels,
+                datasets: [{
+                    label: 'Ticket Priorities',
+                    data: priorityCounts,
+                    backgroundColor: 'rgba(75, 192, 192, 0.7)'
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        new Chart(document.getElementById('trendChart'), {
+            type: 'line',
+            data: {
+                labels: trendLabels,
+                datasets: [{
+                    label: 'Tickets (Last 7 Days)',
+                    data: trendCounts,
+                    fill: false,
+                    borderColor: 'green',
+                    tension: 0.3
+                }]
+            },
+            options: {
+                responsive: true
+            }
+        });
+    </script>
+</body>
+</html>

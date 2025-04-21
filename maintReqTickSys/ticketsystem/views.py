@@ -7,6 +7,15 @@ from django.contrib import messages
 from .models import Ticket, User, UserProfile, Comment
 from . import forms
 from django.db.models import Count
+from django.shortcuts import render
+from django.db.models import Count
+from .models import Ticket
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from django.db.models import Count
+from django.utils import timezone
+from .models import Ticket, UserProfile
+from datetime import timedelta
 
 def home(request):
     # If user has already authenticated and their session hasnt expired, automatically redirect to their dashboard
@@ -76,23 +85,51 @@ def admin_dashboard(request):
     userProfile = UserProfile.objects.get(user=request.user)
     if userProfile.role == "tenant":
         return redirect('tenant_dashboard')
-    
-    context = {
-        'user': request.user,
-        'tickets': Ticket.objects.all()
-    }
 
+    # ✅ Handle checkbox assignment
     if request.method == 'POST':
         selected_checkboxes = request.POST.getlist('my_checkboxes[]')
-        print(selected_checkboxes)
-
         for selected_id in selected_checkboxes:
             ticket = Ticket.objects.get(id=selected_id)
             ticket.assigned_admin = request.user
-
             ticket.save()
 
+    tickets = Ticket.objects.all()
+
+    # ✅ Analytics logic
+    total_tickets = tickets.count()
+    submitted = tickets.filter(status='submitted').count()
+    in_progress = tickets.filter(status='in_progress').count()
+    completed = tickets.filter(status='completed').count()
+    high_priority = tickets.filter(priority='high').count()
+
+    by_category = tickets.values('category').annotate(count=Count('id'))
+    by_priority = tickets.values('priority').annotate(count=Count('id'))
+
+    today = timezone.now().date()
+    last_7_days = [
+        {
+            'date': (today - timedelta(days=i)).strftime('%b %d'),
+            'count': tickets.filter(created_date__date=(today - timedelta(days=i))).count()
+        }
+        for i in range(6, -1, -1)
+    ]
+
+    context = {
+        'user': request.user,
+        'tickets': tickets,
+        'total_tickets': total_tickets,
+        'submitted': submitted,
+        'in_progress': in_progress,
+        'completed': completed,
+        'high_priority': high_priority,
+        'by_category': list(by_category),
+        'by_priority': list(by_priority),
+        'last_7_days': last_7_days,
+    }
+
     return render(request, 'admin_dashboard.html', context)
+
 
 @login_required(login_url="/")
 def admin_my_maintenance(request):
@@ -180,3 +217,40 @@ def admin_ticket_page(request, id):
     }
     
     return render(request, 'admin_ticket_page.html', context)
+
+
+@login_required
+def admin_my_analytics(request):
+    user = request.user
+    user_profile = UserProfile.objects.get(user=user)
+
+    if user_profile.role != 'admin':
+        return redirect('tenant_dashboard')
+
+    tickets = Ticket.objects.filter(assigned_admin=user)
+
+    # Category-wise count
+    by_category = list(tickets.values('category').annotate(count=Count('id')))
+    print("BY CATEGORY:", by_category)
+
+    # Priority-wise count
+    by_priority = list(tickets.values('priority').annotate(count=Count('id')))
+    print("BY PRIORITY:", by_priority)
+
+    # Ticket trend for the last 7 days
+    last_7_days = []
+    today = timezone.now().date()
+    for i in range(6, -1, -1):
+        day = today - timedelta(days=i)
+        count = tickets.filter(created_date__date=day).count()
+        last_7_days.append({"date": day.strftime("%b %d"), "count": count})
+    print("LAST 7 DAYS:", last_7_days)
+
+    context = {
+        'user': user,
+        'by_category': by_category,
+        'by_priority': by_priority,
+        'last_7_days': last_7_days
+    }
+
+    return render(request, 'admin_my_analytics.html', context)

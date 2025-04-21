@@ -74,6 +74,10 @@
                             <li class="nav-item filter-tab" role="presentation">
                                 <a class="nav-link" data-filter="general" id="general-tab" data-bs-toggle="tab" data-bs-target="#general" role="tab" aria-controls="general" aria-selected="false">General</a>
                             </li>
+                            <li class="nav-item filter-tab" role="presentation">
+                                <a class="nav-link" id="analytics-tab" data-bs-toggle="tab" data-bs-target="#analytics" role="tab" aria-controls="analytics" aria-selected="false">Analytics</a>
+                            </li>
+                            
                         </ul>
                     </div>
 
@@ -270,6 +274,28 @@
                                 </div>
                             </form>
                         </div>
+                    <!-- Analytics Tab -->
+                        <div class="tab-pane fade" id="analytics" role="tabpanel" aria-labelledby="analytics-tab">
+                            <div class="container mt-4">
+                                <!-- KPI Cards -->
+                                <div class="row text-center">
+                                    <div class="col-md-3"><div class="card bg-primary text-white mb-3"><div class="card-body"><h5>Total</h5><p>{{ total_tickets }}</p></div></div></div>
+                                    <div class="col-md-3"><div class="card bg-warning text-dark mb-3"><div class="card-body"><h5>Submitted</h5><p>{{ submitted }}</p></div></div></div>
+                                    <div class="col-md-3"><div class="card bg-info text-white mb-3"><div class="card-body"><h5>In Progress</h5><p>{{ in_progress }}</p></div></div></div>
+                                    <div class="col-md-3"><div class="card bg-success text-white mb-3"><div class="card-body"><h5>Completed</h5><p>{{ completed }}</p></div></div></div>
+                                </div>
+
+                                <!-- Charts -->
+                                <div class="row">
+                                    <div class="col-md-6"><canvas id="categoryChart"></canvas></div>
+                                    <div class="col-md-6"><canvas id="priorityChart"></canvas></div>
+                                </div>
+                                <div class="row mt-4">
+                                    <div class="col-md-12"><canvas id="trendChart"></canvas></div>
+                                </div>
+                            </div>
+                        </div>
+
                         
                     </div>
                 </div>
@@ -286,5 +312,45 @@
             window.location.href = url;
         }
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const categoryData = {{ by_category|safe }};
+        const priorityData = {{ by_priority|safe }};
+        const trendData = {{ last_7_days|safe }};
+    
+        const categoryLabels = categoryData.map(obj => obj.category.charAt(0).toUpperCase() + obj.category.slice(1));
+        const categoryCounts = categoryData.map(obj => obj.count);
+    
+        const priorityLabels = priorityData.map(obj => obj.priority.charAt(0).toUpperCase() + obj.priority.slice(1));
+        const priorityCounts = priorityData.map(obj => obj.count);
+    
+        const trendLabels = trendData.map(obj => obj.date);
+        const trendCounts = trendData.map(obj => obj.count);
+    
+        new Chart(document.getElementById('categoryChart'), {
+            type: 'pie',
+            data: {
+                labels: categoryLabels,
+                datasets: [{ label: 'Categories', data: categoryCounts }]
+            }
+        });
+    
+        new Chart(document.getElementById('priorityChart'), {
+            type: 'bar',
+            data: {
+                labels: priorityLabels,
+                datasets: [{ label: 'Priority Levels', data: priorityCounts, backgroundColor: 'rgba(75, 192, 192, 0.7)' }]
+            }
+        });
+    
+        new Chart(document.getElementById('trendChart'), {
+            type: 'line',
+            data: {
+                labels: trendLabels,
+                datasets: [{ label: 'Tickets Over Last 7 Days', data: trendCounts, fill: false, borderColor: 'blue' }]
+            }
+        });
+    </script>
+    
 </body>
 </html>
