@@ -25,7 +25,8 @@ def home(request):
             return redirect('admin_dashboard')
         else:
             return redirect('tenant_dashboard')
-    return render(request, 'home.html')
+    # Send user to login page
+    return redirect('login')
 
 def user_login(request):
     # If user has already authenticated and their session hasnt expired, automatically redirect to their dashboard
