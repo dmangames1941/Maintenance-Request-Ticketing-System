@@ -163,7 +163,7 @@
             <!--Ticket Status & Updates (Left Side)-->
             <div class="col-5 left-column pt-3 ps-5">
                 <div class="d-flex align-items-center">
-                    <h5><b>Status: </b>{{ ticket.status|title }}</h5>
+                    <h5><b>Status: </b>{{ ticket.get_status_display|title }}</h5>
                 </div>
                 <!--Progress Circle-->
                 <div class="col col-progress">
