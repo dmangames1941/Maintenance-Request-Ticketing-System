@@ -75,7 +75,7 @@ def tenant_dashboard(request):
 
     context = {
         'user': request.user,
-        'tickets': Ticket.objects.all(),
+        'tickets': Ticket.objects.filter(submitter_id=request.user.id),
         'form': form,
     }
     return render(request, 'tenant_dashboard.html', context)
