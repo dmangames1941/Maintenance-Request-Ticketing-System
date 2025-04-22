@@ -33,3 +33,21 @@ This project was built using the following technologies:
 - Monnish Sayi Reddy Peta
 - Hayley Siharath
 - Jadon Vanschaick
+
+### Deployment Instructions
+Download and install the latest version of Python. Latest version can be found at the link provided below.
+https://www.python.org/downloads/ 
+Git clone the latest version of the project from our repository linked below.
+https://github.com/dmangames1941/Maintenance-Request-Ticketing-System 
+Open a GitBash terminal
+If GitBash is not installed, it can be found here: https://git-scm.com/downloads 
+Navigate to the project folder. Your terminal should show something similar to the following file path:
+
+In the terminal, run the following terminal commands (Note this is only for windows. Mac will follow different instructions):
+$ python -m venv .venv 
+The following folder will appear after the command is ran
+
+$ cd maintReqTickSys
+$ source .venv/Scripts/activate
+$ pip install -r requirements.txt
+$ py manage.py runserver
