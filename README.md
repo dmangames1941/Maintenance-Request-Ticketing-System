@@ -49,7 +49,11 @@ This project was built using the following technologies:
 - In the terminal, run the following terminal commands (Note this is only for windows. Mac will follow different instructions):
 
 $ python -m venv .venv 
+
 $ cd maintReqTickSys
+
 $ source .venv/Scripts/activate
+
 $ pip install -r requirements.txt
+
 $ py manage.py runserver
