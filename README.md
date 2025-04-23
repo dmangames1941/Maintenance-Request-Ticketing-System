@@ -35,25 +35,43 @@ This project was built using the following technologies:
 - Jadon Vanschaick
 
 ### Deployment Instructions
-- Download and install the latest version of Python. Latest version can be found at the link provided below.
-      https://www.python.org/downloads/
-  
-- Git clone the latest version of the project from our repository linked below.
-      https://github.com/dmangames1941/Maintenance-Request-Ticketing-System
-  
-- Open a GitBash terminal
-      If GitBash is not installed, it can be found here: https://git-scm.com/downloads
+## 1. Download and install the latest version of Python.
+Download and install the latest version of Python from the official website:
+👉 [Download Python](https://www.python.org/downloads/)
 
-- Navigate to the project folder.
+## 2. Download the Project Zip File
+Head over to our GitHub repository and click the green **"Code"** button, then select **"Download ZIP"**.
+👉 [GitHub Repository](https://github.com/dmangames1941/Maintenance-Request-Ticketing-System)
 
-- In the terminal, run the following terminal commands (Note this is only for windows. Mac will follow different instructions):
+## 3. Extract the ZIP File
+Unzip the downloaded project folder to a convenient location on your computer.
 
-$ python -m venv .venv 
+## 4. Open Git Bash
+If Git Bash is not installed, download it here:
+👉 [Download Git Bash](https://git-scm.com/downloads)
 
-$ cd maintReqTickSys
+## 5. Navigate to the Project Folder
+Use Git Bash to navigate to the extracted folder. The file path should look like this:
 
+```MINGW64 ~/Downloads/Maintenance-Request-Ticketing-System-main/Maintenance-Request-Ticketing-System-main/```
+
+## 6. Run the Following Commands in Terminal
+```bash
+$ python -m venv .venv
 $ source .venv/Scripts/activate
-
+$ cd maintReqTickSys
 $ pip install -r requirements.txt
-
 $ py manage.py runserver
+```
+
+## 7. Access the Application
+CTRL + Click on the generated `http://127.0.0.1:8000` link in the terminal to open it in your browser.
+
+## 8. Login Credentials
+Use the following credentials to test different usecases:
+### - For Tenant
+  - Username: `TestTenant1`
+  - Password: `tenant123`
+### - For Admin
+  - Username: `TestAdmin1`
+  - Password: `admin123`
